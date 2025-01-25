@@ -1,0 +1,36 @@
+const manufacturers = [
+    "Argor-Heraeus",
+    "Asahi Refining",
+    "Bayerisches Hauptmünzamt",
+    "British Royal Mint",
+    "Casa de Moneda de México",
+    "Den Kongelige Mont, Kopenhagen",
+    "Diverse serbische Münzprägeanstalten",
+    "Eidgenössische Münzstätte Bern",
+    "Heimerle + Meule GmbH Scheideanstalt",
+    "Johnson Matthey",
+    "Körmöcbányai Pénzverde (Münze Kremnitz)",
+    "Lunar Mint Australia",
+    "Metalor",
+    "Münze Österreich AG",
+    "PAMP Suisse",
+    "Perth Mint",
+    "Rand Refinery",
+    "Royal Canadian Mint",
+    "Royal Mint",
+    "Shanghai Mint",
+    "Swiss Mint",
+    "The United States Mint",
+    "Valcambi",
+    "jew. staatliche Prägestätten",
+    "Lunar Mint New Zealand",
+    "Chinese Gold Panda Mint",
+    "Australian Gold Kangaroo Mint",
+    "Polish State Mint",
+    "Singapore Mint",
+    "Banco de Mexico",
+    "Korean Mint (KOMSCO)"
+  ];
+  
+  export default manufacturers;
+  
