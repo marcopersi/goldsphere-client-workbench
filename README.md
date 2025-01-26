@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Getting Started with Goldsphere
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Goldsphere is a service to order gold products from registered and trusted suppliers, where the individual may choose to have a secure delivery or a custody service included. 
 
 ## Available Scripts
 
