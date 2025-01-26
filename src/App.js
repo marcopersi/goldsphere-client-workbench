@@ -1,14 +1,20 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import Portfolio from "./components/Portfolio";
 import ProductRequest from "./components/ProductRequest";
 import APIDocs from "./components/APIDocs";
 import logo from "./assets/logo.webp";
-import "./styles.css";
 
 const Home = () => <h2>Welcome to GoldSphere</h2>;
 
 const App = () => {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
   return (
     <Router>
       <div className="App">
@@ -31,7 +37,7 @@ const App = () => {
               onMouseOver={(e) => (e.target.style.background = "linear-gradient(to bottom, silver, black)")}
               onMouseOut={(e) => (e.target.style.background = "linear-gradient(to bottom, gold, black)")}
             >
-              Your Portfolio
+              {t('yourPortfolio')}
             </NavLink>
             <NavLink
               to="/product-request"
@@ -46,7 +52,7 @@ const App = () => {
               onMouseOver={(e) => (e.target.style.background = "linear-gradient(to bottom, silver, black)")}
               onMouseOut={(e) => (e.target.style.background = "linear-gradient(to bottom, gold, black)")}
             >
-              Product Request
+              {t('productRequest')}
             </NavLink>
             <NavLink
               to="/api-docs"
@@ -61,11 +67,12 @@ const App = () => {
               onMouseOver={(e) => (e.target.style.background = "linear-gradient(to bottom, silver, black)")}
               onMouseOut={(e) => (e.target.style.background = "linear-gradient(to bottom, gold, black)")}
             >
-              API Docs
+              {t('apiDocs')}
             </NavLink>
           </nav>
           <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
             <select
+              onChange={(e) => changeLanguage(e.target.value)}
               style={{
                 padding: "10px",
                 borderRadius: "5px",
@@ -90,7 +97,7 @@ const App = () => {
                 cursor: "pointer",
               }}
             >
-              ...
+              {t('buttonText')}
             </button>
           </div>
         </header>

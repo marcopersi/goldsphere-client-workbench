@@ -1,12 +1,15 @@
 import React from "react";
 import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
+import { useTranslation } from 'react-i18next';
 
 const EnhancedTable = ({ data }) => {
+  const { t } = useTranslation();
+
   const columns = React.useMemo(
     () => [
       {
         accessorKey: "product",
-        header: "Product",
+        header: t('product'),
         cell: (info) => (
           <div className="product-cell">
             {info.getValue()}
@@ -15,20 +18,20 @@ const EnhancedTable = ({ data }) => {
       },
       {
         accessorKey: "productType",
-        header: "Product Type",
+        header: t('productType'),
         cell: (info) => (
           <div className="product-cell">
             {info.getValue()}
           </div>
         ),
       },
-      { accessorKey: "weight", header: "Weight" },
-      { accessorKey: "purchaseDate", header: "Purchase Date" },
-      { accessorKey: "seller", header: "Seller" },
-      { accessorKey: "custody", header: "Custody" },
-      { accessorKey: "price", header: "Value" },
+      { accessorKey: "weight", header: t('weight') },
+      { accessorKey: "purchaseDate", header: t('purchaseDate') },
+      { accessorKey: "seller", header: t('seller') },
+      { accessorKey: "custody", header: t('custody') },
+      { accessorKey: "price", header: t('value') },
     ],
-    []
+    [t]
   );
 
   // Berechnung des Totals für die `price`-Spalte

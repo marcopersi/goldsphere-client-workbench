@@ -3,7 +3,6 @@ import manufacturers from "../assets/manufacturers";
 import issuingCountries from "../assets/issuingCountries";
 import sampleData from "../assets/sampleData";
 import MultiSelectDropdown from "../components/MultiSelectDropDown";
-import "../styles.css";
 
 const ProductRequest = () => {
   const [filters, setFilters] = useState({

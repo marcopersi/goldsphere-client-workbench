@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import "../styles.css";
 
 const MultiSelectDropdown = ({ label, options, selected, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
