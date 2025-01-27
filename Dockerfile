@@ -1,27 +1,29 @@
-# Verwende den Node.js-Container als Basis
-FROM node:18
-
-# Setze das Arbeitsverzeichnis
-WORKDIR /app
-
-# Kopiere package.json und package-lock.json
-COPY package*.json ./
-
-# Installiere Abhängigkeiten
-RUN npm install
-
-# Kopiere den Rest der Anwendung
-COPY . .
-
-# Baue die App
-RUN npm run build
-
-# Nutze einen leichtgewichtigen Webserver, um die App auszuführen
-FROM nginx:alpine
-COPY --from=0 /app/build /usr/share/nginx/html
-
-# Exponiere Port 80 für den Container
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
-
+    # Use an Alpine-based Node.js container as the build stage
+    FROM node:18-alpine AS build
+    
+    # Set the working directory
+    WORKDIR /app
+    
+    # Copy package.json and package-lock.json
+    COPY package*.json ./
+    
+    # Install dependencies
+    RUN npm install
+    
+    # Copy the rest of the application
+    COPY . .
+    
+    # Build the application
+    RUN npm run build
+    
+    # Use a lightweight Nginx container to serve the application
+    FROM nginx:alpine
+    
+    # Copy the build output from the build stage
+    COPY --from=build /app/build /usr/share/nginx/html
+    
+    # Expose port 80 for the container
+    EXPOSE 80
+    
+    # Start Nginx
+    CMD ["nginx", "-g", "daemon off;"]
