@@ -1,4 +1,4 @@
-# Getting Started with Goldsphere
+# Getting Started with Goldsphere [![Docker Image CI](https://github.com/marcopersi/goldsphere/actions/workflows/docker-image.yml/badge.svg)](https://github.com/marcopersi/goldsphere/actions/workflows/docker-image.yml)
 
 Goldsphere is a service to order gold products from registered and trusted suppliers, where the individual may choose to have a secure delivery or a custody service included. 
 
