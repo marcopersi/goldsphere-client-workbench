@@ -26,8 +26,14 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker buildx build --file Dockerfile --tag goldsphere:latest --cache-from type=local,src=/tmp/.buildx-cache --cache-to type=local,dest=/tmp/.buildx-cache .
-
+        docker buildx build \
+          --file Dockerfile \
+          --tag goldsphere:latest \
+          --cache-from type=local,src=/tmp/.buildx-cache \
+          --cache-to type=local,dest=/tmp/.buildx-cache \
+          --load \
+          .
+          
     - name: Test Docker image
       run: |
         docker run --rm goldsphere:latest npm test
