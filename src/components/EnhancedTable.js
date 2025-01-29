@@ -1,81 +1,48 @@
 import React from "react";
-import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
+import { format, isValid } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 
-const EnhancedTable = ({ data }) => {
+const EnhancedTable = ({ data, columns }) => {
   const { t } = useTranslation();
 
-  const columns = React.useMemo(
-    () => [
-      {
-        accessorKey: "product",
-        header: t('product'),
-        cell: (info) => (
-          <div className="product-cell">
-            {info.getValue()}
-          </div>
-        ),
-      },
-      {
-        accessorKey: "productType",
-        header: t('productType'),
-        cell: (info) => (
-          <div className="product-cell">
-            {info.getValue()}
-          </div>
-        ),
-      },
-      { accessorKey: "weight", header: t('weight') },
-      { accessorKey: "purchaseDate", header: t('purchaseDate') },
-      { accessorKey: "seller", header: t('seller') },
-      { accessorKey: "custody", header: t('custody') },
-      { accessorKey: "price", header: t('value') },
-    ],
-    [t]
-  );
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (isValid(date)) {
+      return format(date, 'dd.MM.yyyy HH:mm:ss');
+    } else {
+      return 'Invalid Date';
+    }
+  };
 
-  // Berechnung des Totals für die `price`-Spalte
-  const totalValue = data.reduce((sum, row) => {
-    const value = row.price ? parseFloat(row.price.replace(" CHF", "")) : 0;
-    return sum + value;
-  }, 0);
+  // Wenn keine Spalten definiert sind, automatisch Spalten basierend auf den Daten generieren
+  const autoColumns = data.length > 0 ? Object.keys(data[0]).map(key => ({ header: key, accessor: key })) : [];
 
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+  const tableColumns = columns || autoColumns;
 
   return (
-    <table className="enhanced-table">
+    <table style={{ borderCollapse: "collapse", width: "80%", textAlign: "center" }}>
       <thead>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
-            ))}
-          </tr>
-        ))}
+        <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
+          {tableColumns.map((column) => (
+            <th key={column.accessor} style={{ border: "1px solid silver" }}>
+              {t(column.header.charAt(0).toUpperCase() + column.header.slice(1))}
+            </th>
+          ))}
+        </tr>
       </thead>
       <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+        {data.map((item) => (
+          <tr key={item.id}>
+            {tableColumns.map((column) => (
+              <td key={column.accessor} style={{ border: "1px solid silver" }}>
+                {column.accessor.includes('created_at') || column.accessor.includes('updated_at')
+                  ? formatDate(item[column.accessor])
+                  : item[column.accessor]}
+              </td>
             ))}
           </tr>
         ))}
       </tbody>
-      <tfoot>
-        <tr>
-          <td colSpan={columns.length - 1} style={{ textAlign: "right", fontWeight: "bold" }}>
-            Total
-          </td>
-          <td style={{ fontWeight: "bold", fontSize: "16px" }}>
-            {totalValue.toFixed(2)} CHF
-          </td>
-        </tr>
-      </tfoot>
     </table>
   );
 };

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-do
 import { useTranslation } from 'react-i18next';
 import Portfolio from "./components/Portfolio";
 import ProductRequest from "./components/ProductRequest";
+import ReferenceData from "./components/ReferenceData";
 import APIDocs from "./components/APIDocs";
 import logo from "./assets/logo.webp";
 
@@ -55,6 +56,21 @@ const App = () => {
               {t('productRequest')}
             </NavLink>
             <NavLink
+              to="/references"
+              style={{
+                padding: "10px 20px",
+                border: "1px solid silver",
+                borderRadius: "5px",
+                background: "linear-gradient(to bottom, gold, black)",
+                color: "white",
+                textDecoration: "none",
+              }}
+              onMouseOver={(e) => (e.target.style.background = "linear-gradient(to bottom, silver, black)")}
+              onMouseOut={(e) => (e.target.style.background = "linear-gradient(to bottom, gold, black)")}
+            >
+              {t('references')}
+            </NavLink>            
+            <NavLink
               to="/api-docs"
               style={{
                 padding: "10px 20px",
@@ -86,6 +102,7 @@ const App = () => {
               <option value="de">🇩🇪 Deutsch</option>
               <option value="fr">🇫🇷 Français</option>
               <option value="it">🇮🇹 Italiano</option>
+              <option value="es">🇪🇸 Español</option> {/* Spanische Sprache hinzugefügt */}
             </select>
             <button
               style={{
@@ -97,7 +114,7 @@ const App = () => {
                 cursor: "pointer",
               }}
             >
-              {t('buttonText')}
+              {t('...')}
             </button>
           </div>
         </header>
@@ -106,6 +123,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/product-request" element={<ProductRequest />} />
+            <Route path="/references" element={<ReferenceData />} />
             <Route path="/api-docs" element={<APIDocs />} />
           </Routes>
         </main>
