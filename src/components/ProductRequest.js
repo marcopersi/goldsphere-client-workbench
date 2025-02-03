@@ -1,35 +1,42 @@
-import React, { useState } from "react";
-import manufacturers from "../assets/manufacturers";
-import issuingCountries from "../assets/issuingCountries";
-import sampleData from "../assets/sampleData";
+import React, { useState, useEffect } from "react";
 import MultiSelectDropdown from "../components/MultiSelectDropDown";
 import EnhancedTable from "./EnhancedTable";
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 const ProductRequest = () => {
-  const { t } = useTranslation(); // Initialisiere den Hook
+  const { t } = useTranslation();
+  const [orders, setOrders] = useState([]);
+  
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get('http://localhost:11215/api/orders');
+        console.info("requested orders returned:", response.data);
+        setOrders(response.data);
+      } catch (error) {
+        console.error("Error fetching orders data:", error);
+      }
+    };
+    fetchOrders();
+  }, []);
 
-  const [filters, setFilters] = useState({
-    productType: "Coin",
-    manufacturers: [],
-    issuingCountries: [],
-  });
 
-  const productColumns = [
-    { header: t("id"), accessor: "id" },
-    { header: t("name"), accessor: "name" },
-    { header: t("productType"), accessor: "productType" },
-    { header: t("manufacturer"), accessor: "manufacturer" },
-    { header: t("issuingCountry"), accessor: "issuingCountry" },
-    { header: t("price"), accessor: "price" },
-    { header: t("created_at"), accessor: "created_at" },
-    { header: t("updated_at"), accessor: "updated_at" }
+  const orderColumns = [
+    { header: t("user"), accessor: "username" },
+    { header: t("productname"), accessor: "productname" },
+    { header: t("quantity"), accessor: "quantity" },
+    { header: t("totalprice"), accessor: "totalprice" },
+    { header: t("orderstatus"), accessor: "orderstatus" },
+    { header: t("custodyservice"), accessor: "custodyservicename" },
+    { header: t("createdat"), accessor: "createdat" },
+    { header: t("updatedat"), accessor: "updatedat" }
   ];
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
       <h2>{t('productRequest')}</h2>
-      <EnhancedTable data={sampleData} columns={productColumns} />
+      <EnhancedTable data={orders} columns={orderColumns} />
     </div>
   );
 };

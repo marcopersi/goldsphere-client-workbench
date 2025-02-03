@@ -1,6 +1,7 @@
 import React from "react";
 import { format, isValid } from 'date-fns';
 import { useTranslation } from 'react-i18next';
+import Flag from 'react-world-flags';
 
 const EnhancedTable = ({ data, columns }) => {
   const { t } = useTranslation();
@@ -14,16 +15,27 @@ const EnhancedTable = ({ data, columns }) => {
     }
   };
 
-  // Wenn keine Spalten definiert sind, automatisch Spalten basierend auf den Daten generieren
-  const autoColumns = data.length > 0 ? Object.keys(data[0]).map(key => ({ header: key, accessor: key })) : [];
-
-  const tableColumns = columns || autoColumns;
+  const renderCell = (item, column) => {
+    if (column.accessor.includes('createdat') || column.accessor.includes('updatedat') || column.accessor.includes('purchasedate')) {
+      return formatDate(item[column.accessor]);
+    } else if (column.accessor === 'issuingcountry' || column.accessor === 'issuingcountryname') {
+      const countryCode = item[column.accessor].toUpperCase().slice(0, 2); // Assuming the country code is the first two letters
+      return (
+        <>
+          <Flag code={countryCode} style={{ width: '20px', height: '15px', marginRight: '5px' }} />
+          {item[column.accessor]}
+        </>
+      );
+    } else {
+      return item[column.accessor];
+    }
+  };
 
   return (
     <table style={{ borderCollapse: "collapse", width: "80%", textAlign: "center" }}>
       <thead>
         <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
-          {tableColumns.map((column) => (
+          {columns.map((column) => (
             <th key={column.accessor} style={{ border: "1px solid silver" }}>
               {t(column.header.charAt(0).toUpperCase() + column.header.slice(1))}
             </th>
@@ -33,11 +45,9 @@ const EnhancedTable = ({ data, columns }) => {
       <tbody>
         {data.map((item) => (
           <tr key={item.id}>
-            {tableColumns.map((column) => (
+            {columns.map((column) => (
               <td key={column.accessor} style={{ border: "1px solid silver" }}>
-                {column.accessor.includes('created_at') || column.accessor.includes('updated_at')
-                  ? formatDate(item[column.accessor])
-                  : item[column.accessor]}
+                {renderCell(item, column)}
               </td>
             ))}
           </tr>

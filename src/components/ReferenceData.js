@@ -10,7 +10,7 @@ const ReferenceData = () => {
   const [custodians, setCustodians] = useState([]);
   const [countries, setCountries] = useState([]);
   const [productTypes, setProductTypes] = useState([]);
-  const [manufacturers, setManufacturers] = useState([]);
+  const [producers, setproducers] = useState([]);
 
   console.info("ReferenceData component rendered");
 
@@ -38,7 +38,7 @@ const ReferenceData = () => {
 
     const fetchIssuingCountries = async () => {
       try {
-        const response = await axios.get('http://localhost:11215/api/references/issuing-countries');
+        const response = await axios.get('http://localhost:11215/api/references/issuingCountries');
         console.info("requested countries returned:", response.data);
         setCountries(response.data);
       } catch (error) {
@@ -48,7 +48,7 @@ const ReferenceData = () => {
 
     const fetchProductTypes = async () => {
       try {
-        const response = await axios.get('http://localhost:11215/api/references/product-types');
+        const response = await axios.get('http://localhost:11215/api/references/productTypes');
         console.info("requested product types returned:", response.data);
         setProductTypes(response.data);
       } catch (error) {
@@ -56,13 +56,13 @@ const ReferenceData = () => {
       } 
     };
 
-    const fetchManufacturers = async () => {
+    const fetchproducers = async () => {
       try {
-        const response = await axios.get('http://localhost:11215/api/references/manufacturers');
-        console.info("requested manufacturers returned:", response.data);
-        setManufacturers(response.data);
+        const response = await axios.get('http://localhost:11215/api/references/producers');
+        console.info("requested producers returned:", response.data);
+        setproducers(response.data);
       } catch (error) {
-        console.error("Error fetching manufacturers data:", error);
+        console.error("Error fetching producers data:", error);
       }
     };  
 
@@ -71,39 +71,37 @@ const ReferenceData = () => {
       fetchCustodians();
       fetchIssuingCountries();
       fetchProductTypes();
-      fetchManufacturers();
+      fetchproducers();
     }, []);
 
   const metalColumns = [
-    { header: t("name"), accessor: "name" },
-    { header: t("created_at"), accessor: "created_at" },
-    { header: t("updated_at"), accessor: "updated_at" }
+    { header: t("name"), accessor: "metalname" },
+    { header: t("createdat"), accessor: "createdat" },
+    { header: t("updatedat"), accessor: "updatedat" }
   ];
 
   const custodianColumns = [
-    { header: t("name"), accessor: "name" },
-    { header: t("location"), accessor: "location" },
-    { header: t("created_at"), accessor: "created_at" },
-    { header: t("updated_at"), accessor: "updated_at" }
+    { header: t("name"), accessor: "custodianname" },
+    { header: t("createdat"), accessor: "createdat" },
+    { header: t("updatedat"), accessor: "updatedat" }
   ];
 
   const countryColumns = [
-    { header: t("name"), accessor: "name" },
-    { header: t("iso_code"), accessor: "iso_code" },
-    { header: t("created_at"), accessor: "created_at" },
-    { header: t("updated_at"), accessor: "updated_at" }
+    { header: t("name"), accessor: "issuingcountryname" },
+    { header: t("createdat"), accessor: "createdat" },
+    { header: t("updatedat"), accessor: "updatedat" }
   ];
 
   const productTypeColumns = [
-    { header: t("name"), accessor: "name" },
-    { header: t("created_at"), accessor: "created_at" },
-    { header: t("updated_at"), accessor: "updated_at" }
+    { header: t("name"), accessor: "producttypename" },
+    { header: t("createdat"), accessor: "createdat" },
+    { header: t("updatedat"), accessor: "updatedat" }
   ];
 
-  const manufacturerColumns = [
-    { header: t("name"), accessor: "name" },
-    { header: t("created_at"), accessor: "created_at" },
-    { header: t("updated_at"), accessor: "updated_at" }
+  const producerColumns = [
+    { header: t("name"), accessor: "producername" },
+    { header: t("createdat"), accessor: "createdat" },
+    { header: t("updatedat"), accessor: "updatedat" }
   ];
 
   return (
@@ -122,8 +120,8 @@ const ReferenceData = () => {
       <h2>{t('productTypes')}</h2>
       <EnhancedTable data={productTypes} columns={productTypeColumns} />
 
-      <h2>{t('manufactorers')}</h2>
-      <EnhancedTable data={manufacturers} columns={manufacturerColumns} />
+      <h2>{t('manufactorer')}</h2>
+      <EnhancedTable data={producers} columns={producerColumns} />
     </div>
   );
 };
