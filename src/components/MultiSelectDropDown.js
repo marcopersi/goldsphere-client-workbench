@@ -21,6 +21,14 @@ const MultiSelectDropdown = ({ label, options, selected, onChange }) => {
     };
   }, []);
 
+  const handleCheckboxChange = (option) => {
+    if (selected.includes(option)) {
+      onChange(selected.filter(item => item !== option));
+    } else {
+      onChange([...selected, option]);
+    }
+  };
+
   return (
     <div className="multi-select-dropdown" ref={dropdownRef} style={{ position: "relative" }}>
       <button
@@ -63,7 +71,7 @@ const MultiSelectDropdown = ({ label, options, selected, onChange }) => {
                     type="checkbox"
                     className="custom-control-input"
                     checked={selected.includes(option.name)}
-                    onChange={() => onChange(option.name)}
+                    onChange={() => handleCheckboxChange(option.name)}
                     id={`${label}-${index}`}
                   />
                   <label
