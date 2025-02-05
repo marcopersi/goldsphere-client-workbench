@@ -7,6 +7,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const [countdown, setCountdown] = useState(10);
   const [selectedCustodian, setSelectedCustodian] = useState(null);
   const [custodians, setCustodians] = useState([]);
+  const [quantities, setQuantities] = useState({});
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -28,7 +29,6 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
     const fetchCustodianservices = async () => {
       try {
         const response = await axios.get('http://localhost:11215/api/custodyServices');
-        console.info("requested custodians returned:", response.data);
         setCustodians(response.data);
       } catch (error) {
         console.error("Error fetching custodians data:", error);
@@ -38,13 +38,31 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
     fetchCustodianservices();
   }, []);
 
+  useEffect(() => {
+    const initialQuantities = selectedProducts.reduce((acc, product) => {
+      acc[product.id] = 1; // Default quantity is 1
+      return acc;
+    }, {});
+    setQuantities(initialQuantities);
+  }, [selectedProducts]);
+
+  const handleQuantityChange = (productId, quantity) => {
+    setQuantities(prevQuantities => ({
+      ...prevQuantities,
+      [productId]: quantity
+    }));
+  };
+
+  const totalSum = selectedProducts.reduce((sum, product) => {
+    const quantity = quantities[product.id] || 1;
+    return sum + (quantity * parseFloat(product.price));
+  }, 0);
+
   const loadNewPrices = () => {
     // Placeholder function to load new prices
     console.log('Loading new prices...');
     // Implement the logic to load new prices here
   };
-
-  const totalSum = selectedProducts.reduce((sum, product) => sum + parseFloat(product.price), 0);
 
   return (
     <div style={{
@@ -53,39 +71,57 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
       left: 0,
       width: '100%',
       height: '100%',
-      backgroundColor: 'rgba(0, 0, 0, 0.8)', 
+      backgroundColor: 'rgba(0, 0, 0, 0.8)', // Dunkler Hintergrund
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
     }}>
       <div style={{
-        backgroundColor: '#333', 
+        backgroundColor: '#333', // Dunkler Hintergrund für das Popup
         padding: '20px',
         borderRadius: '10px',
         width: '80%',
         maxWidth: '800px',
-        color: 'white' 
+        color: 'white' // Textfarbe weiß
       }}>
-        <h2>{t('buy')}</h2>
+        <h2>{t('checkout')}</h2>
         <div style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '24px', color: 'red' }}>
           <p>{t('countdown')}: {countdown}</p>
         </div>
         <table style={{ borderCollapse: "collapse", width: "100%", textAlign: "center" }}>
           <thead>
             <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
+              <th style={{ border: "1px solid silver" }}>{t('quantity')}</th>
               <th style={{ border: "1px solid silver" }}>{t('productname')}</th>
               <th style={{ border: "1px solid silver" }}>{t('price')}</th>
+              <th style={{ border: "1px solid silver" }}>{t('total')}</th>
             </tr>
           </thead>
           <tbody>
             {selectedProducts.map(product => (
               <tr key={product.id}>
+                <td style={{ border: "1px solid silver" }}>
+                  <input
+                    type="number"
+                    min="1"
+                    value={quantities[product.id] || 1}
+                    onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value, 10))}
+                    style={{
+                      fontSize: '16px', // Größerer Font
+                      width: '60px', // Kürzeres Eingabefeld
+                      fontWeight: 'bold', // Fett
+                      textAlign: 'center', // Zentriert
+                      appearance: 'textfield' // Entfernt die Pfeile
+                    }}
+                  />
+                </td>
                 <td style={{ border: "1px solid silver" }}>{product.productname}</td>
                 <td style={{ border: "1px solid silver" }}>{product.price}</td>
+                <td style={{ border: "1px solid silver" }}>{(quantities[product.id] || 1) * parseFloat(product.price)}</td>
               </tr>
             ))}
             <tr>
-              <td style={{ border: "1px solid silver", fontWeight: "bold" }}>{t('total')}</td>
+              <td colSpan="3" style={{ border: "1px solid silver", textAlign: "right", background: "linear-gradient(to bottom, silver, black)", color: "white" }}>{t('total')}</td>
               <td style={{ border: "1px solid silver" }}>{totalSum.toFixed(2)}</td>
             </tr>
           </tbody>
@@ -148,7 +184,6 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
               color: "white",
               cursor: "pointer"
             }}
-            
             onMouseOver={(e) => {
               e.target.style.background = "linear-gradient(to bottom, gold, black)";
             }}
