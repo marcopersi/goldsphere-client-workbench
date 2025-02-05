@@ -19,6 +19,7 @@ const Products = () => {
   const [sortedIssuingCountries, setSortedIssuingCountries] = useState([]);
   const [sortedProductTypes, setSortedProductTypes] = useState([]);
   const [sortedMetals, setSortedMetals] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -50,6 +51,10 @@ const Products = () => {
       ...prevFilters,
       [filterName]: selectedOptions
     }));
+  };
+
+  const handleSelectionChange = (selectedRows) => {
+    setSelectedProducts(selectedRows);
   };
 
   const filteredProducts = products.filter(product => {
@@ -103,7 +108,33 @@ const Products = () => {
           onChange={(value) => handleFilterChange("metals", value)}
         />
       </div>
-      <EnhancedTable data={filteredProducts} columns={productColumns} />
+      <EnhancedTable data={filteredProducts} columns={productColumns} onSelectionChange={handleSelectionChange} />
+      <div style={{ display: "flex", justifyContent: "flex-end", width: "80%" }}>    
+        <button
+          style={{
+            padding: "10px 20px",
+            border: "1px solid silver",
+            borderRadius: "5px",
+            background: "linear-gradient(to bottom, gold, silver)",
+            color: "white",
+            cursor: selectedProducts.length > 0 ? "pointer" : "not-allowed",
+            opacity: selectedProducts.length > 0 ? 1 : 0.5
+          }}
+          disabled={selectedProducts.length === 0}
+
+          onMouseOver={(e) => {
+            e.target.style.background = "linear-gradient(to bottom, silver, black)";
+          }}
+
+          onMouseOut={(e) => {
+            e.target.style.background = "linear-gradient(to bottom, gold, black)";
+          }}
+          >
+          {
+            t("buy")
+          }
+        </button>
+      </div>
     </div>
   );
 };

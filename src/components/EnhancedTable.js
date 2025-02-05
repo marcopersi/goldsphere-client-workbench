@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { format, isValid } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import Flag from 'react-world-flags';
 
-const EnhancedTable = ({ data, columns }) => {
+const EnhancedTable = ({ data, columns, onSelectionChange }) => {
   const { t } = useTranslation();
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -13,6 +14,15 @@ const EnhancedTable = ({ data, columns }) => {
     } else {
       return 'Invalid Date';
     }
+  };
+
+  const handleCheckboxChange = (product) => {
+    const newSelectedRows = selectedRows.includes(product)
+      ? selectedRows.filter(item => item !== product)
+      : [...selectedRows, product];
+
+    setSelectedRows(newSelectedRows);
+    onSelectionChange(newSelectedRows);
   };
 
   const renderCell = (item, column) => {
@@ -35,6 +45,18 @@ const EnhancedTable = ({ data, columns }) => {
     <table style={{ borderCollapse: "collapse", width: "80%", textAlign: "center" }}>
       <thead>
         <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
+          <th style={{ border: "1px solid silver" }}>
+              <input
+                type="checkbox"
+                onChange={(e) => {
+                  const allSelected = e.target.checked;
+                  const newSelectedRows = allSelected ? data : [];
+                  setSelectedRows(newSelectedRows);
+                  onSelectionChange(newSelectedRows);
+                }}
+                checked={selectedRows.length === data.length}
+              />
+          </th>
           {columns.map((column) => (
             <th key={column.accessor} style={{ border: "1px solid silver" }}>
               {t(column.header.charAt(0).toUpperCase() + column.header.slice(1))}
@@ -43,15 +65,22 @@ const EnhancedTable = ({ data, columns }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map((item) => (
+      {data.map((item) => (
           <tr key={item.id}>
+            <td style={{ border: "1px solid silver" }}>
+              <input
+                type="checkbox"
+                checked={selectedRows.includes(item)}
+                onChange={() => handleCheckboxChange(item)}
+              />
+            </td>
             {columns.map((column) => (
               <td key={column.accessor} style={{ border: "1px solid silver" }}>
                 {renderCell(item, column)}
               </td>
             ))}
           </tr>
-        ))}
+      ))}
       </tbody>
     </table>
   );

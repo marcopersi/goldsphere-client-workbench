@@ -47,7 +47,8 @@ const resources = {
       "quantity": "Quantity",
       "metal": "Metal",
       "purchasepriceperunit": "Paid price per unit",
-      "purchasedate": "Buying date"
+      "purchasedate": "Buying date",
+      "buy": "Buy",
     }
   },
   de: {
@@ -94,7 +95,8 @@ const resources = {
       "totalprice": "Gesamtpreis",
       "quantity": "Menge",
       "purchasepriceperunit": "Kaufpreis pro Einheit",
-      "purchasedate": "Kaufdatum"
+      "purchasedate": "Kaufdatum",
+      "buy": "Kaufen",
     }
   },
   fr: {
@@ -141,7 +143,8 @@ const resources = {
       "totalprice": "Prix total",
       "quantity": "Quantité",
       "purchasepriceperunit": "Prix d'achat par unité",
-      "purchasedate": "Date d'achat"
+      "purchasedate": "Date d'achat",
+      "buy": "Acheter",
     }
   },
   es: {
@@ -188,7 +191,8 @@ const resources = {
       "totalprice": "Precio total",
       "quantity": "Cantidad",
       "purchasepriceperunit": "Precio de compra por unidad",
-      "purchasedate": "Fecha de compra"
+      "purchasedate": "Fecha de compra",
+      "buy": "Comprar",
     }
   },
   it: {
@@ -235,7 +239,8 @@ const resources = {
       "totalprice": "Prezzo totale",
       "quantity": "Quantità",
       "purchasepriceperunit": "Prezzo di acquisto per unità",
-      "purchasedate": "Data di acquisto"
+      "purchasedate": "Data di acquisto",
+      "buy": "Acquistare",
     }
   },
 };
