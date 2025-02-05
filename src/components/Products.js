@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import EnhancedTable from "./EnhancedTable";
 import MultiSelectDropDown from "./MultiSelectDropDown";
+import BuyPopup from "./BuyPopup";
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
@@ -20,6 +21,8 @@ const Products = () => {
   const [sortedProductTypes, setSortedProductTypes] = useState([]);
   const [sortedMetals, setSortedMetals] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [custodians, setCustodians] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -33,6 +36,19 @@ const Products = () => {
     };
 
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchCustodians = async () => {
+      try {
+        const response = await axios.get('http://localhost:11215/api/custodians');
+        setCustodians(response.data);
+      } catch (error) {
+        console.error("Error fetching custodians data:", error);
+      }
+    };
+
+    fetchCustodians();
   }, []);
 
   useEffect(() => {
@@ -55,6 +71,27 @@ const Products = () => {
 
   const handleSelectionChange = (selectedRows) => {
     setSelectedProducts(selectedRows);
+  };
+
+  const handleBuyClick = () => {
+    setShowPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
+  };
+
+  const handleConfirm = (custodianId) => {
+    // Senden Sie die Anfrage an den Server
+    axios.post('http://localhost:11215/api/buy', {
+      products: selectedProducts,
+      custodianId
+    }).then(response => {
+      console.log('Purchase confirmed:', response.data);
+      setShowPopup(false);
+    }).catch(error => {
+      console.error('Error confirming purchase:', error);
+    });
   };
 
   const filteredProducts = products.filter(product => {
@@ -108,7 +145,7 @@ const Products = () => {
           onChange={(value) => handleFilterChange("metals", value)}
         />
       </div>
-      <EnhancedTable data={filteredProducts} columns={productColumns} onSelectionChange={handleSelectionChange} />
+      <EnhancedTable data={filteredProducts} columns={productColumns} onSelectionChange={handleSelectionChange} selectable={true}/>
       <div style={{ display: "flex", justifyContent: "flex-end", width: "80%" }}>    
         <button
           style={{
@@ -121,7 +158,7 @@ const Products = () => {
             opacity: selectedProducts.length > 0 ? 1 : 0.5
           }}
           disabled={selectedProducts.length === 0}
-
+          onClick={handleBuyClick}
           onMouseOver={(e) => {
             e.target.style.background = "linear-gradient(to bottom, silver, black)";
           }}
@@ -135,6 +172,14 @@ const Products = () => {
           }
         </button>
       </div>
+      {showPopup && (
+        <BuyPopup
+          selectedProducts={selectedProducts}
+          custodians={custodians}
+          onClose={handlePopupClose}
+          onConfirm={handleConfirm}
+        />
+      )}
     </div>
   );
 };

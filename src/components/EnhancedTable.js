@@ -3,7 +3,7 @@ import { format, isValid } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import Flag from 'react-world-flags';
 
-const EnhancedTable = ({ data, columns, onSelectionChange }) => {
+const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false }) => {
   const { t } = useTranslation();
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -45,7 +45,8 @@ const EnhancedTable = ({ data, columns, onSelectionChange }) => {
     <table style={{ borderCollapse: "collapse", width: "80%", textAlign: "center" }}>
       <thead>
         <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
-          <th style={{ border: "1px solid silver" }}>
+          {selectable && (
+            <th style={{ border: "1px solid silver" }}>
               <input
                 type="checkbox"
                 onChange={(e) => {
@@ -56,7 +57,8 @@ const EnhancedTable = ({ data, columns, onSelectionChange }) => {
                 }}
                 checked={selectedRows.length === data.length}
               />
-          </th>
+            </th>
+          )}
           {columns.map((column) => (
             <th key={column.accessor} style={{ border: "1px solid silver" }}>
               {t(column.header.charAt(0).toUpperCase() + column.header.slice(1))}
@@ -65,22 +67,24 @@ const EnhancedTable = ({ data, columns, onSelectionChange }) => {
         </tr>
       </thead>
       <tbody>
-      {data.map((item) => (
+        {data.map((item) => (
           <tr key={item.id}>
-            <td style={{ border: "1px solid silver" }}>
-              <input
-                type="checkbox"
-                checked={selectedRows.includes(item)}
-                onChange={() => handleCheckboxChange(item)}
-              />
-            </td>
+            {selectable && (
+              <td style={{ border: "1px solid silver" }}>
+                <input
+                  type="checkbox"
+                  checked={selectedRows.includes(item)}
+                  onChange={() => handleCheckboxChange(item)}
+                />
+              </td>
+            )}
             {columns.map((column) => (
               <td key={column.accessor} style={{ border: "1px solid silver" }}>
                 {renderCell(item, column)}
               </td>
             ))}
           </tr>
-      ))}
+        ))}
       </tbody>
     </table>
   );
