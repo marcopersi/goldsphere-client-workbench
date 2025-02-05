@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
-const BuyPopup = ({ selectedProducts, onClose, onConfirm }) => {
+const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const { t } = useTranslation();
   const [countdown, setCountdown] = useState(10);
   const [selectedCustodian, setSelectedCustodian] = useState(null);
@@ -165,4 +165,4 @@ const BuyPopup = ({ selectedProducts, onClose, onConfirm }) => {
   );
 };
 
-export default BuyPopup;
+export default Checkout;

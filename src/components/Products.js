@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import EnhancedTable from "./EnhancedTable";
 import MultiSelectDropDown from "./MultiSelectDropDown";
-import BuyPopup from "./BuyPopup";
+import Checkout from "./Checkout";
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
@@ -173,7 +173,7 @@ const Products = () => {
         </button>
       </div>
       {showPopup && (
-        <BuyPopup
+        <Checkout
           selectedProducts={selectedProducts}
           custodians={custodians}
           onClose={handlePopupClose}
