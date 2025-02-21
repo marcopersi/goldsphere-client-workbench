@@ -33,7 +33,7 @@ const Portfolio = () => {
     { header: t("producttype"), accessor: "producttypename" },
     { header: t("fineweight"), accessor: "fineweight" },
     { header: t("unitofmeasure"), accessor: "unitofmeasure" },
-    { header: t("issuingcountry"), accessor: "issuingcountryname" },
+    { header: t("issuingcountry"), accessor: "issuingcountry" },
     { header: t("custodyservice"), accessor: "custodyservicename" },
     { header: t("purchasedate"), accessor: "purchasedate" },
     { header: t("purchasepriceperunit"), accessor: "purchasepriceperunit" },    

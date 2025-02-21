@@ -8,6 +8,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const [selectedCustodian, setSelectedCustodian] = useState(null);
   const [custodians, setCustodians] = useState([]);
   const [quantities, setQuantities] = useState({});
+  const [products, setProducts] = useState(selectedProducts);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -53,15 +54,36 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
     }));
   };
 
-  const totalSum = selectedProducts.reduce((sum, product) => {
+  const totalSum = products.reduce((sum, product) => {
     const quantity = quantities[product.id] || 1;
     return sum + (quantity * parseFloat(product.price));
   }, 0);
 
-  const loadNewPrices = () => {
-    // Placeholder function to load new prices
+  const updateProducts = (updatedProducts) => {
+    console.log('Updated products:', updatedProducts);
+    if (!Array.isArray(updatedProducts)) {
+      console.error("Expected updatedProducts to be an array");
+      return;
+    }
+
+    setProducts(prevProducts =>
+      prevProducts.map(product => {
+        const updatedProduct = updatedProducts.find(p => p.id === product.id);
+        return updatedProduct ? { ...product, price: updatedProduct.price } : product;
+      })
+    );
+  };
+
+  const loadNewPrices = async () => {
+    try {
+      const productIds = selectedProducts.map(product => product.id);
+      const response = await axios.post('http://localhost:11215/api/products/prices', { productIds });
+      const updatedProducts = response.data;
+      updateProducts(updatedProducts);
+    } catch (error) {
+      console.error("Error fetching new prices:", error);
+    }
     console.log('Loading new prices...');
-    // Implement the logic to load new prices here
   };
 
   return (
@@ -98,7 +120,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
             </tr>
           </thead>
           <tbody>
-            {selectedProducts.map(product => (
+            {products.map(product => (
               <tr key={product.id}>
                 <td style={{ border: "1px solid silver" }}>
                   <input

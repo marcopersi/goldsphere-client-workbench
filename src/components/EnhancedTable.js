@@ -28,8 +28,8 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
   const renderCell = (item, column) => {
     if (column.accessor.includes('createdat') || column.accessor.includes('updatedat') || column.accessor.includes('purchasedate')) {
       return formatDate(item[column.accessor]);
-    } else if (column.accessor === 'issuingcountry' || column.accessor === 'issuingcountryname') {
-      const countryCode = item[column.accessor].toUpperCase().slice(0, 2); // Assuming the country code is the first two letters
+    } else if (column.accessor === 'issuingcountry') {
+      const countryCode = item.isocode2.toUpperCase(); 
       return (
         <>
           <Flag code={countryCode} style={{ width: '20px', height: '15px', marginRight: '5px' }} />
