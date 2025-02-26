@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { format, isValid } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import Flag from 'react-world-flags';
+import PropTypes from "prop-types";
 
 const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false }) => {
   const { t } = useTranslation();
@@ -88,6 +89,19 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
       </tbody>
     </table>
   );
+};
+
+EnhancedTable.propTypes = {
+  selectedProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onSelectionChange: PropTypes.func.isRequired,
+  selectable: PropTypes.bool,
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      header: PropTypes.string.isRequired,
+      accessor: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired, 
 };
 
 export default EnhancedTable;

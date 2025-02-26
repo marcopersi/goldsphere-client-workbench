@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import PropTypes from "prop-types";
 
 const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const { t } = useTranslation();
@@ -252,4 +253,9 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   );
 };
 
+Checkout.propTypes = {
+  selectedProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+};
 export default Checkout;

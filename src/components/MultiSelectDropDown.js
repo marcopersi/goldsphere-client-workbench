@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 
 const MultiSelectDropdown = ({ label, options, selected, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -90,6 +91,13 @@ const MultiSelectDropdown = ({ label, options, selected, onChange }) => {
       )}
     </div>
   );
+};
+
+MultiSelectDropdown.propTypes = {
+  label: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired, flag: PropTypes.string })),
+  selected: PropTypes.arrayOf(PropTypes.string),
+  onChange: PropTypes.func.isRequired,
 };
 
 export default MultiSelectDropdown;

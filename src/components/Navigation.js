@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Navigation = ({ items }) => {
   return (
@@ -33,6 +34,10 @@ const Navigation = ({ items }) => {
       ))}
     </nav>
   );
+};
+
+Navigation.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Navigation;
