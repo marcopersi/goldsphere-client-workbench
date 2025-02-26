@@ -51,6 +51,8 @@ const resources = {
       "buy": "Checkout",
       "total": "Total Purchase",
       "custodyservicedescription": "If you do **not** select a custody service, your purchase will be shipped to the address in your profile.",
+      "delete": "Delete",
+      "select": "Select",
     }
   },
   de: {
@@ -101,6 +103,8 @@ const resources = {
       "buy": "Checkout",
       "total": "Total",
       "custodyservicedescription": "Wenn Sie *keinen* Verwahrungsdienst auswählen, wird Ihr Kauf an die Adresse in Ihrem Profil gesendet.",
+      "delete": "Löschen",
+      "select": "Selektion",
     }
   },
   fr: {
@@ -151,6 +155,8 @@ const resources = {
       "buy": "Acheter",
       "total": "Total",
       "custodyservicedescription": "Si vous ne sélectionnez **pas** de service de garde, votre achat sera envoyé à l'adresse de votre profil.",
+      "delete": "Effacer",
+      "select": "Sélectionner",
     }
   },
   es: {
@@ -201,6 +207,8 @@ const resources = {
       "buy": "Comprar",
       "total": "Total",
       "custodyservicedescription": "Si **no** selecciona un servicio de custodia, su compra se enviará a la dirección de su perfil.",
+      "delete": "Eliminar",
+      "select": "Seleccionar",
     }
   },
   it: {
@@ -251,6 +259,8 @@ const resources = {
       "buy": "Acquistare",
       "total": "Total",
       "custodyservicedescription": "Se non selezioni **nessun** servizio di custodia, il tuo acquisto verrà inviato all'indirizzo nel tuo profilo .",
+      "delete": "Elimina",
+      "select": "Seleziona",
     }
   },
 };

@@ -86,6 +86,36 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
     console.log('Loading new prices...');
   };
 
+  const handleConfirm = async () => {
+    const userId = '500472ff-24f0-4141-a756-f456cd3213d2'; // Hardcoded user ID
+    const orders = products.map(product => ({
+      userId,
+      productId: product.id,
+      quantity: quantities[product.id],
+      totalPrice: quantities[product.id] * parseFloat(product.price),
+      custodyServiceId: selectedCustodian
+    }));
+
+    try {
+      console.log('creating orders:', orders);
+      console.log('Request Body:', JSON.stringify(orders, null, 2));
+      const response = await axios.post('http://localhost:11215/api/orders', orders, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.debug('Orders created:', response.data);
+      onConfirm(selectedCustodian);
+    } catch (error) {
+      console.error('Error creating orders:', error);
+      if (error.response) {
+        console.error('Response data:', error.response.data);
+        console.error('Response status:', error.response.status);
+        console.error('Response headers:', error.response.headers);
+      }
+    }
+  };
+
   return (
     <div style={{
       position: 'fixed',
@@ -93,18 +123,18 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
       left: 0,
       width: '100%',
       height: '100%',
-      backgroundColor: 'rgba(0, 0, 0, 0.8)', // Dunkler Hintergrund
+      backgroundColor: 'rgba(0, 0, 0, 0.8)', 
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
     }}>
       <div style={{
-        backgroundColor: '#333', // Dunkler Hintergrund für das Popup
+        backgroundColor: '#333', 
         padding: '20px',
         borderRadius: '10px',
         width: '80%',
         maxWidth: '800px',
-        color: 'white' // Textfarbe weiß
+        color: 'white' 
       }}>
         <h2>{t('checkout')}</h2>
         <div style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '24px', color: 'red' }}>
@@ -129,11 +159,11 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
                     value={quantities[product.id] || 1}
                     onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value, 10))}
                     style={{
-                      fontSize: '16px', // Größerer Font
-                      width: '60px', // Kürzeres Eingabefeld
-                      fontWeight: 'bold', // Fett
-                      textAlign: 'center', // Zentriert
-                      appearance: 'textfield' // Entfernt die Pfeile
+                      fontSize: '16px', 
+                      width: '60px', 
+                      fontWeight: 'bold', 
+                      textAlign: 'center', 
+                      appearance: 'textfield' 
                     }}
                   />
                 </td>
@@ -212,7 +242,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
             onMouseOut={(e) => {
               e.target.style.background = "linear-gradient(to bottom, silver, black)";
             }}
-            onClick={() => onConfirm(selectedCustodian)}
+            onClick={handleConfirm}
           >
             {t('confirm')}
           </button>

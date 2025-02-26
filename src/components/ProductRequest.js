@@ -7,7 +7,8 @@ import axios from 'axios';
 const ProductRequest = () => {
   const { t } = useTranslation();
   const [orders, setOrders] = useState([]);
-  
+  const [selectedOrders, setSelectedOrders] = useState([]);
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -21,6 +22,19 @@ const ProductRequest = () => {
     fetchOrders();
   }, []);
 
+  const handleSelectionChange = (selectedRows) => {
+    setSelectedOrders(selectedRows);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await Promise.all(selectedOrders.map(order => axios.delete(`http://localhost:11215/api/orders/${order.id}`)));
+      setOrders(prevOrders => prevOrders.filter(order => !selectedOrders.includes(order)));
+      setSelectedOrders([]);
+    } catch (error) {
+      console.error("Error deleting orders:", error);
+    }
+  };
 
   const orderColumns = [
     { header: t("user"), accessor: "username" },
@@ -36,7 +50,30 @@ const ProductRequest = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
       <h2>{t('productRequest')}</h2>
-      <EnhancedTable data={orders} columns={orderColumns} />
+      <EnhancedTable data={orders} columns={orderColumns} onSelectionChange={handleSelectionChange} selectable={true} />
+      <div style={{ display: "flex", justifyContent: "flex-end", width: "80%" }}>
+        <button
+          style={{
+            padding: "10px 20px",
+            border: "1px solid silver",
+            borderRadius: "5px",
+            background: "linear-gradient(to bottom, silver, black)",
+            color: "white",
+            cursor: selectedOrders.length > 0 ? "pointer" : "not-allowed",
+            opacity: selectedOrders.length > 0 ? 1 : 0.5
+          }}
+          disabled={selectedOrders.length === 0}
+          onClick={handleDelete}
+          onMouseOver={(e) => {
+            e.target.style.background = "linear-gradient(to bottom, gold, black)";
+          }}
+          onMouseOut={(e) => {
+            e.target.style.background = "linear-gradient(to bottom, silver, black)";
+          }}
+        >
+          {t('delete')}
+        </button>
+      </div>
     </div>
   );
 };

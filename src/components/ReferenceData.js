@@ -11,6 +11,7 @@ const ReferenceData = () => {
   const [countries, setCountries] = useState([]);
   const [productTypes, setProductTypes] = useState([]);
   const [producers, setproducers] = useState([]);
+  const [orderstatus, setorderstatus] = useState([]);
 
   console.info("ReferenceData component rendered");
 
@@ -66,12 +67,23 @@ const ReferenceData = () => {
       }
     };  
 
+    const fetchorderstatus = async () => {
+      try {
+        const response = await axios.get('http://localhost:11215/api/references/orderstatus');
+        console.info("requested orderstatus returned:", response.data);
+        setorderstatus(response.data);
+      } catch (error) {
+        console.error("Error fetching orderstatus data:", error);
+      }
+    };
+
       console.info("useEffect triggered");
       fetchMetals();
       fetchCustodians();
       fetchIssuingCountries();
       fetchProductTypes();
       fetchproducers();
+      fetchorderstatus();
     }, []);
 
   const metalColumns = [
@@ -104,6 +116,10 @@ const ReferenceData = () => {
     { header: t("updatedat"), accessor: "updatedat" }
   ];
 
+  const orderStatusColumns = [
+    { header: t("orderstatus"), accessor: "orderstatus" },
+  ];
+
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
       <h2>{t('referenceDataManagement')}</h2>
@@ -117,11 +133,15 @@ const ReferenceData = () => {
       <h2>{t('countries')}</h2>
       <EnhancedTable data={countries} columns={countryColumns} />
 
-      <h2>{t('productTypes')}</h2>
+      <h2>{t('producttypes')}</h2>
       <EnhancedTable data={productTypes} columns={productTypeColumns} />
 
-      <h2>{t('manufactorer')}</h2>
+      <h2>{t('producer')}</h2>
       <EnhancedTable data={producers} columns={producerColumns} />
+
+      <h2>{t('orderstatus')}</h2>
+      <EnhancedTable data={orderstatus} columns={orderStatusColumns} />
+
     </div>
   );
 };

@@ -81,19 +81,6 @@ const Products = () => {
     setShowPopup(false);
   };
 
-  const handleConfirm = (custodianId) => {
-    // Senden Sie die Anfrage an den Server
-    axios.post('http://localhost:11215/api/buy', {
-      products: selectedProducts,
-      custodianId
-    }).then(response => {
-      console.log('Purchase confirmed:', response.data);
-      setShowPopup(false);
-    }).catch(error => {
-      console.error('Error confirming purchase:', error);
-    });
-  };
-
   const filteredProducts = products.filter(product => {
     const producerMatch = filters.producers.length === 0 || filters.producers.includes(product.producer);
     const issuingCountryMatch = filters.issuingcountries.length === 0 || filters.issuingcountries.includes(product.issuingcountry);
@@ -177,7 +164,7 @@ const Products = () => {
           selectedProducts={selectedProducts}
           custodians={custodians}
           onClose={handlePopupClose}
-          onConfirm={handleConfirm}
+          onConfirm={handlePopupClose} 
         />
       )}
     </div>
