@@ -48,11 +48,12 @@ const resources = {
       "metal": "Metal",
       "purchasepriceperunit": "Paid price per unit",
       "purchasedate": "Buying date",
-      "buy": "Checkout",
+      "checkout": "Checkout",
       "total": "Total Purchase",
       "custodyservicedescription": "If you do **not** select a custody service, your purchase will be shipped to the address in your profile.",
       "delete": "Delete",
       "select": "Select",
+      "countdown": "Reload price(s) in",
     }
   },
   de: {
@@ -100,11 +101,12 @@ const resources = {
       "quantity": "Menge",
       "purchasepriceperunit": "Kaufpreis pro Einheit",
       "purchasedate": "Kaufdatum",
-      "buy": "Checkout",
+      "checkout": "Checkout",
       "total": "Total",
       "custodyservicedescription": "Wenn Sie *keinen* Verwahrungsdienst auswählen, wird Ihr Kauf an die Adresse in Ihrem Profil gesendet.",
       "delete": "Löschen",
       "select": "Selektion",
+      "countdown": "Preis(e) neu laden in",
     }
   },
   fr: {
@@ -151,11 +153,12 @@ const resources = {
       "quantity": "Quantité",
       "purchasepriceperunit": "Prix d'achat par unité",
       "purchasedate": "Date d'achat",
-      "buy": "Acheter",
+      "checkout": "Acheter",
       "total": "Total",
       "custodyservicedescription": "Si vous ne sélectionnez **pas** de service de garde, votre achat sera envoyé à l'adresse de votre profil.",
       "delete": "Effacer",
       "select": "Sélectionner",
+      "countdown": "Recharger le prix dans",
     }
   },
   es: {
@@ -202,11 +205,12 @@ const resources = {
       "quantity": "Cantidad",
       "purchasepriceperunit": "Precio de compra por unidad",
       "purchasedate": "Fecha de compra",
-      "buy": "Comprar",
+      "checkout": "Comprar",
       "total": "Total",
       "custodyservicedescription": "Si **no** selecciona un servicio de custodia, su compra se enviará a la dirección de su perfil.",
       "delete": "Eliminar",
       "select": "Seleccionar",
+      "countdown": "Recargar precio en",
     }
   },
   it: {
@@ -253,11 +257,12 @@ const resources = {
       "quantity": "Quantità",
       "purchasepriceperunit": "Prezzo di acquisto per unità",
       "purchasedate": "Data di acquisto",
-      "buy": "Acquistare",
+      "checkout": "Acquistare",
       "total": "Total",
       "custodyservicedescription": "Se non selezioni **nessun** servizio di custodia, il tuo acquisto verrà inviato all'indirizzo nel tuo profilo .",
       "delete": "Elimina",
       "select": "Seleziona",
+      "countdown": "Ricarica il prezzo in",
     }
   },
 };

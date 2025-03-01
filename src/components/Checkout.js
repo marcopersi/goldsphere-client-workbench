@@ -144,16 +144,16 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
         <table style={{ borderCollapse: "collapse", width: "100%", textAlign: "center" }}>
           <thead>
             <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
-              <th style={{ border: "1px solid silver" }}>{t('quantity')}</th>
-              <th style={{ border: "1px solid silver" }}>{t('productname')}</th>
-              <th style={{ border: "1px solid silver" }}>{t('price')}</th>
-              <th style={{ border: "1px solid silver" }}>{t('total')}</th>
+              <th style={{ border: "1px solid silver", padding: "10px" }}>{t('quantity')}</th>
+              <th style={{ border: "1px solid silver", padding: "10px" }}>{t('productname')}</th>
+              <th style={{ border: "1px solid silver", padding: "10px" }}>{t('price')}</th>
+              <th style={{ border: "1px solid silver", padding: "10px" }}>{t('total')}</th>
             </tr>
           </thead>
           <tbody>
             {products.map(product => (
               <tr key={product.id}>
-                <td style={{ border: "1px solid silver" }}>
+                <td style={{ border: "1px solid silver", padding: "10px" }}>
                   <input
                     type="number"
                     min="1"
@@ -168,14 +168,14 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
                     }}
                   />
                 </td>
-                <td style={{ border: "1px solid silver" }}>{product.productname}</td>
-                <td style={{ border: "1px solid silver" }}>{product.price}</td>
-                <td style={{ border: "1px solid silver" }}>{(quantities[product.id] || 1) * parseFloat(product.price)}</td>
+                <td style={{ border: "1px solid silver", padding: "10px" }}>{product.productname}</td>
+                <td style={{ border: "1px solid silver", padding: "10px" }}>{product.price}</td>
+                <td style={{ border: "1px solid silver", padding: "10px" }}>{(quantities[product.id] || 1) * parseFloat(product.price)}</td>
               </tr>
             ))}
             <tr>
-              <td colSpan="3" style={{ border: "1px solid silver", textAlign: "right", background: "linear-gradient(to bottom, silver, black)", color: "white" }}>{t('total')}</td>
-              <td style={{ border: "1px solid silver" }}>{totalSum.toFixed(2)}</td>
+              <td colSpan="3" style={{ border: "1px solid silver", textAlign: "right", background: "linear-gradient(to bottom, silver, black)", color: "white", padding: "10px" }}>{t('total')}</td>
+              <td style={{ border: "1px solid silver", padding: "10px" }}>{totalSum.toFixed(2)}</td>
             </tr>
           </tbody>
         </table>
@@ -184,16 +184,16 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
         <table style={{ borderCollapse: "collapse", width: "100%", textAlign: "center" }}>
           <thead>
             <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
-              <th style={{ border: "1px solid silver" }}>{t('select')}</th>
-              <th style={{ border: "1px solid silver" }}>{t('custodyservicename')}</th>
-              <th style={{ border: "1px solid silver" }}>{t('fee')}</th>
-              <th style={{ border: "1px solid silver" }}>{t('paymentfrequency')}</th>
+              <th style={{ border: "1px solid silver", padding: "5px" }}>{t('select')}</th>
+              <th style={{ border: "1px solid silver", padding: "5px" }}>{t('custodyservicename')}</th>
+              <th style={{ border: "1px solid silver", padding: "5px" }}>{t('fee')}</th>
+              <th style={{ border: "1px solid silver", padding: "5px" }}>{t('paymentfrequency')}</th>
             </tr>
           </thead>
           <tbody>
             {custodians.map(custodian => (
               <tr key={custodian.id}>
-                <td style={{ border: "1px solid silver" }}>
+                <td style={{ border: "1px solid silver", padding: "5px" }}>
                   <input
                     type="radio"
                     name="custodian"
@@ -201,9 +201,9 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
                     onChange={() => setSelectedCustodian(custodian.id)}
                   />
                 </td>
-                <td style={{ border: "1px solid silver" }}>{custodian.custodyservicename}</td>
-                <td style={{ border: "1px solid silver" }}>{custodian.fee}</td>
-                <td style={{ border: "1px solid silver" }}>{custodian.paymentfrequency}</td>
+                <td style={{ border: "1px solid silver", padding: "5px" }}>{custodian.custodyservicename}</td>
+                <td style={{ border: "1px solid silver", padding: "5px" }}>{custodian.fee}</td>
+                <td style={{ border: "1px solid silver", padding: "5px" }}>{custodian.paymentfrequency}</td>
               </tr>
             ))}
           </tbody>
@@ -258,4 +258,5 @@ Checkout.propTypes = {
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
 };
+
 export default Checkout;
