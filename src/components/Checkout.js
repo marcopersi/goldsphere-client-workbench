@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const { t } = useTranslation();
   const [countdown, setCountdown] = useState(10);
-  const [selectedCustodian, setSelectedCustodian] = useState(null);
+  const [selectedCustodian, setSelectedCustodian] = useState('home_delivery');
   const [custodians, setCustodians] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [products, setProducts] = useState(selectedProducts);
@@ -31,7 +31,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
     const fetchCustodianservices = async () => {
       try {
         const response = await axios.get('http://localhost:11215/api/custodyServices');
-        setCustodians(response.data);
+        setCustodians([{ id: 'home_delivery', custodyservicename: 'none, home delivery', fee: '20.00', paymentfrequency: 'one time' }, ...response.data]);
       } catch (error) {
         console.error("Error fetching custodians data:", error);
       }
@@ -42,7 +42,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
 
   useEffect(() => {
     const initialQuantities = selectedProducts.reduce((acc, product) => {
-      acc[product.id] = 1; // Default quantity is 1
+      acc[product.id] = 1; 
       return acc;
     }, {});
     setQuantities(initialQuantities);
@@ -53,6 +53,14 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
       ...prevQuantities,
       [productId]: quantity
     }));
+  };
+
+  const handleCustodyServiceChange = (custodianId, custodyServiceId) => {
+    setCustodians(prevCustodians =>
+      prevCustodians.map(custodian =>
+        custodian.id === custodianId ? { ...custodian, custodyServiceId } : custodian
+      )
+    );
   };
 
   const totalSum = products.reduce((sum, product) => {
@@ -94,7 +102,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
       productId: product.id,
       quantity: quantities[product.id],
       totalPrice: quantities[product.id] * parseFloat(product.price),
-      custodyServiceId: selectedCustodian
+      custodyServiceId: selectedCustodian === 'home_delivery' ? null : selectedCustodian
     }));
 
     try {
@@ -174,36 +182,55 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
               </tr>
             ))}
             <tr>
-              <td colSpan="3" style={{ border: "1px solid silver", textAlign: "right", background: "linear-gradient(to bottom, silver, black)", color: "white", padding: "10px" }}>{t('total')}</td>
+              <td colSpan="3" style={{ border: "1px solid silver", textAlign: "right", color: "white", padding: "10px" }}>{t('total')}</td>
               <td style={{ border: "1px solid silver", padding: "10px" }}>{totalSum.toFixed(2)}</td>
             </tr>
           </tbody>
         </table>
         <h3>{t('custodyservice')}</h3>
-        <p>{t('custodyservicedescription')}</p>
         <table style={{ borderCollapse: "collapse", width: "100%", textAlign: "center" }}>
           <thead>
             <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
-              <th style={{ border: "1px solid silver", padding: "5px" }}>{t('select')}</th>
-              <th style={{ border: "1px solid silver", padding: "5px" }}>{t('custodyservicename')}</th>
-              <th style={{ border: "1px solid silver", padding: "5px" }}>{t('fee')}</th>
-              <th style={{ border: "1px solid silver", padding: "5px" }}>{t('paymentfrequency')}</th>
+              <th style={{ border: "1px solid silver", padding: "10px" }}>{t('select')}</th>
+              <th style={{ border: "1px solid silver", padding: "10px" }}>{t('custodyservicename')}</th>
+              <th style={{ border: "1px solid silver", padding: "10px" }}>{t('fee')}</th>
+              <th style={{ border: "1px solid silver", padding: "10px" }}>{t('paymentfrequency')}</th>
             </tr>
           </thead>
           <tbody>
             {custodians.map(custodian => (
               <tr key={custodian.id}>
-                <td style={{ border: "1px solid silver", padding: "5px" }}>
+                <td style={{ border: "1px solid silver", padding: "10px" }}>
                   <input
                     type="radio"
                     name="custodian"
                     value={custodian.id}
+                    checked={selectedCustodian === custodian.id}
                     onChange={() => setSelectedCustodian(custodian.id)}
                   />
                 </td>
-                <td style={{ border: "1px solid silver", padding: "5px" }}>{custodian.custodyservicename}</td>
-                <td style={{ border: "1px solid silver", padding: "5px" }}>{custodian.fee}</td>
-                <td style={{ border: "1px solid silver", padding: "5px" }}>{custodian.paymentfrequency}</td>
+                <td style={{ border: "1px solid silver", padding: "10px" }}>
+                  {custodian.id === 'home_delivery' ? (
+                    custodian.custodyservicename
+                  ) : (
+                    <select
+                      value={custodian.custodyServiceId || ''}
+                      onChange={(e) => handleCustodyServiceChange(custodian.id, e.target.value)}
+                      style={{ width: '100%' }}
+                    >
+                      <option value="" disabled>{t('select')}</option>
+                      {custodians
+                        .filter(c => c.id !== 'home_delivery')
+                        .map(c => (
+                          <option key={c.id} value={c.id}>
+                            {c.custodyservicename}
+                          </option>
+                        ))}
+                    </select>
+                  )}
+                </td>
+                <td style={{ border: "1px solid silver", padding: "10px" }}>{custodian.fee}</td>
+                <td style={{ border: "1px solid silver", padding: "10px" }}>{custodian.paymentfrequency}</td>
               </tr>
             ))}
           </tbody>

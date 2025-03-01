@@ -12,6 +12,7 @@ const ReferenceData = () => {
   const [productTypes, setProductTypes] = useState([]);
   const [producers, setproducers] = useState([]);
   const [orderstatus, setorderstatus] = useState([]);
+  const [custodyservices, setcustodyservices] = useState([]);
 
   console.info("ReferenceData component rendered");
 
@@ -77,6 +78,16 @@ const ReferenceData = () => {
       }
     };
 
+    const fetchCustodyServices = async () => {
+      try {
+        const response = await axios.get('http://localhost:11215/api/custodyServices');
+        console.info("requested custody services returned:", response.data);
+        setcustodyservices(response.data);
+      } catch (error) {
+        console.error("Error fetching custody services data:", error);
+      }
+    };
+
       console.info("useEffect triggered");
       fetchMetals();
       fetchCustodians();
@@ -84,6 +95,7 @@ const ReferenceData = () => {
       fetchProductTypes();
       fetchproducers();
       fetchorderstatus();
+      fetchCustodyServices();
     }, []);
 
   const metalColumns = [
@@ -120,6 +132,17 @@ const ReferenceData = () => {
     { header: t("orderstatus"), accessor: "orderstatus" },
   ];
 
+  const custodyServicesColumns = [
+    { header: t("custodian"), accessor: "custodianid" },
+    { header: t("custodyservicename"), accessor: "custodyservicename" },
+    { header: t("fee"), accessor: "fee" },
+    { header: t("paymentfrequency"), accessor: "paymentfrequency" },
+    { header: t("currencyid"), accessor: "currencyid" },
+    { header: t("maxweight"), accessor: "maxweight" },
+    { header: t("createdat"), accessor: "createdat" },
+    { header: t("updatedat"), accessor: "updatedat" }  
+  ];
+
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
       <h2>{t('referenceDataManagement')}</h2>
@@ -141,6 +164,9 @@ const ReferenceData = () => {
 
       <h2>{t('orderstatus')}</h2>
       <EnhancedTable data={orderstatus} columns={orderStatusColumns} />
+
+      <h2>{t('custodyservices')}</h2>
+      <EnhancedTable data={custodyservices} columns={custodyServicesColumns} />
 
     </div>
   );

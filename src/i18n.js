@@ -50,10 +50,14 @@ const resources = {
       "purchasedate": "Buying date",
       "checkout": "Checkout",
       "total": "Total Purchase",
-      "custodyservicedescription": "If you do **not** select a custody service, your purchase will be shipped to the address in your profile.",
       "delete": "Delete",
       "select": "Select",
       "countdown": "Reload price(s) in",
+      "custodyservicename": "Custody Service",
+      "fee": "Fee",
+      "paymentfrequency": "Payment Frequency",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
     }
   },
   de: {
@@ -103,10 +107,14 @@ const resources = {
       "purchasedate": "Kaufdatum",
       "checkout": "Checkout",
       "total": "Total",
-      "custodyservicedescription": "Wenn Sie *keinen* Verwahrungsdienst auswählen, wird Ihr Kauf an die Adresse in Ihrem Profil gesendet.",
       "delete": "Löschen",
       "select": "Selektion",
       "countdown": "Preis(e) neu laden in",
+      "custodyServiceName": "Verwahrungsdienst",
+      "fee": "Gebühr",
+      "paymentfrequency": "Fälligkeit",
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen"
     }
   },
   fr: {
@@ -155,10 +163,14 @@ const resources = {
       "purchasedate": "Date d'achat",
       "checkout": "Acheter",
       "total": "Total",
-      "custodyservicedescription": "Si vous ne sélectionnez **pas** de service de garde, votre achat sera envoyé à l'adresse de votre profil.",
       "delete": "Effacer",
       "select": "Sélectionner",
       "countdown": "Recharger le prix dans",
+      "custodyServiceName": "Service de garde",
+      "fee": "Frais",
+      "paymentfrequency": "Paiement",
+      "cancel": "Annuler",
+      "confirm": "Confirmer"
     }
   },
   es: {
@@ -207,10 +219,14 @@ const resources = {
       "purchasedate": "Fecha de compra",
       "checkout": "Comprar",
       "total": "Total",
-      "custodyservicedescription": "Si **no** selecciona un servicio de custodia, su compra se enviará a la dirección de su perfil.",
       "delete": "Eliminar",
       "select": "Seleccionar",
       "countdown": "Recargar precio en",
+      "custodyServiceName": "Servicio de custodia",
+      "fee": "Tarifa",
+      "paymentfrequency": "Pago",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
     }
   },
   it: {
@@ -259,10 +275,14 @@ const resources = {
       "purchasedate": "Data di acquisto",
       "checkout": "Acquistare",
       "total": "Total",
-      "custodyservicedescription": "Se non selezioni **nessun** servizio di custodia, il tuo acquisto verrà inviato all'indirizzo nel tuo profilo .",
       "delete": "Elimina",
       "select": "Seleziona",
       "countdown": "Ricarica il prezzo in",
+      "custodyservicename": "Servizio di custodia",
+      "fee": "Tariffa",
+      "paymentfrequency": "Pagamento",
+      "cancel": "Annulla",
+      "confirm": "Conferma"
     }
   },
 };
