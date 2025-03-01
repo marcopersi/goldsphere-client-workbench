@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 import PropTypes from "prop-types";
 import ProductTable from './ProductTable';
 import CustodyServiceTable from './CustodyServiceTable';
+import { fetchCustodyServices, fetchProductPrices, createOrders } from './api';
 
 const HOME_DELIVERY = {
   id: 'home_delivery',
@@ -38,8 +38,8 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   useEffect(() => {
     const fetchCustodianservices = async () => {
       try {
-        const response = await axios.get('http://localhost:11215/api/custodyServices');
-        setCustodians([HOME_DELIVERY, ...response.data]);
+        const data = await fetchCustodyServices();
+        setCustodians([HOME_DELIVERY, ...data]);
       } catch (error) {
         console.error("Error fetching custodians data:", error);
       }
@@ -93,8 +93,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const loadNewPrices = async () => {
     try {
       const productIds = selectedProducts.map(product => product.id);
-      const response = await axios.post('http://localhost:11215/api/products/prices', { productIds });
-      const updatedProducts = response.data;
+      const updatedProducts = await fetchProductPrices(productIds);
       updateProducts(updatedProducts);
     } catch (error) {
       console.error("Error fetching new prices:", error);
@@ -112,19 +111,10 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
     }));
 
     try {
-      await axios.post('http://localhost:11215/api/orders', orders, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      await createOrders(orders);
       onConfirm(selectedCustodian);
     } catch (error) {
       console.error('Error creating orders:', error);
-      if (error.response) {
-        console.error('Response data:', error.response.data);
-        console.error('Response status:', error.response.status);
-        console.error('Response headers:', error.response.headers);
-      }
     }
   };
 
