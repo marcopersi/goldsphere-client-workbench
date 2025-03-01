@@ -47,7 +47,7 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
       <thead>
         <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
           {selectable && (
-            <th style={{ border: "1px solid silver" }}>
+            <th style={{ border: "1px solid silver", padding: "5px" }}>
               <input
                 type="checkbox"
                 onChange={(e) => {
@@ -61,7 +61,7 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
             </th>
           )}
           {columns.map((column) => (
-            <th key={column.accessor} style={{ border: "1px solid silver" }}>
+            <th key={column.accessor} style={{ border: "1px solid silver", padding: "5px" }}>
               {t(column.header.charAt(0).toUpperCase() + column.header.slice(1))}
             </th>
           ))}
@@ -71,7 +71,7 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
         {data.map((item) => (
           <tr key={item.id}>
             {selectable && (
-              <td style={{ border: "1px solid silver" }}>
+              <td style={{ border: "1px solid silver", padding: "5px" }}>
                 <input
                   type="checkbox"
                   checked={selectedRows.includes(item)}
@@ -80,7 +80,7 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
               </td>
             )}
             {columns.map((column) => (
-              <td key={column.accessor} style={{ border: "1px solid silver" }}>
+              <td key={column.accessor} style={{ border: "1px solid silver", padding: "5px" }}>
                 {renderCell(item, column)}
               </td>
             ))}
@@ -92,7 +92,6 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
 };
 
 EnhancedTable.propTypes = {
-  selectedProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSelectionChange: PropTypes.func.isRequired,
   selectable: PropTypes.bool,
   columns: PropTypes.arrayOf(
