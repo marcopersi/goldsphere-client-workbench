@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import ProductTable from './ProductTable';
 import CustodyServiceTable from './CustodyServiceTable';
 import { fetchCustodyServices, fetchProductPrices, createOrders } from './api';
+import './Checkout.css';
 
 const HOME_DELIVERY = {
   id: 'home_delivery',
@@ -119,27 +120,10 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundColor: 'rgba(0, 0, 0, 0.8)', 
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
-      <div style={{
-        backgroundColor: '#333', 
-        padding: '20px',
-        borderRadius: '10px',
-        width: '80%',
-        maxWidth: '800px',
-        color: 'white' 
-      }}>
+    <div className="checkout-overlay">
+      <div className="checkout-container">
         <h2>{t('checkout')}</h2>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', fontSize: '24px', color: 'red' }}>
+        <div className="checkout-countdown">
           <p>{t('countdown')}: {countdown}</p>
         </div>
         <ProductTable
@@ -157,41 +141,15 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
           handleCustodyServiceChange={handleCustodyServiceChange}
           t={t}
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+        <div className="checkout-buttons">
           <button
-            style={{
-              padding: "10px 20px",
-              border: "1px solid silver",
-              borderRadius: "5px",
-              background: "linear-gradient(to bottom, silver, black)",
-              color: "white",
-              cursor: "pointer"
-            }}
-            onMouseOver={(e) => {
-              e.target.style.background = "linear-gradient(to bottom, gold, black)";
-            }}
-            onMouseOut={(e) => {
-              e.target.style.background = "linear-gradient(to bottom, silver, black)";
-            }}
+            className="checkout-button"
             onClick={onClose}
           >
             {t('cancel')}
           </button>
           <button
-            style={{
-              padding: "10px 20px",
-              border: "1px solid silver",
-              borderRadius: "5px",
-              background: "linear-gradient(to bottom, silver, black)",
-              color: "white",
-              cursor: "pointer"
-            }}
-            onMouseOver={(e) => {
-              e.target.style.background = "linear-gradient(to bottom, gold, black)";
-            }}
-            onMouseOut={(e) => {
-              e.target.style.background = "linear-gradient(to bottom, silver, black)";
-            }}
+            className="checkout-button"
             onClick={handleConfirm}
           >
             {t('confirm')}
