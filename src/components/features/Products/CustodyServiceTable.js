@@ -13,7 +13,7 @@ const CustodyServiceTable = ({ custodians, selectedCustodian, setSelectedCustodi
       </tr>
     </thead>
     <tbody>
-      {custodians.map((custodian, index) => (
+      {custodians.map((custodian) => (
         <tr key={custodian.id}>
           <td>
             <input
