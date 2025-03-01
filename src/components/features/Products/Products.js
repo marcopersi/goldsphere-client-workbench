@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import EnhancedTable from "./EnhancedTable";
-import MultiSelectDropDown from "./MultiSelectDropDown";
+import EnhancedTable from "../../common/EnhancedTable";
+import MultiSelectDropDown from "../../common/MultiSelectDropDown";
 import Checkout from "./Checkout";
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';

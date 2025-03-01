@@ -3,8 +3,10 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from "prop-types";
 import ProductTable from './ProductTable';
 import CustodyServiceTable from './CustodyServiceTable';
-import { fetchCustodyServices, fetchProductPrices, createOrders } from './api';
-import './Checkout.css';
+import { fetchProductPrices, createOrders } from '../../api/api';
+import useCountdown from '../../../hooks/useCountdown';
+import useCustodyServices from '../../../hooks/useCustodyServices';
+import '../../../styles/Checkout.css';
 
 const HOME_DELIVERY = {
   id: 'home_delivery',
@@ -15,39 +17,12 @@ const HOME_DELIVERY = {
 
 const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const { t } = useTranslation();
-  const [countdown, setCountdown] = useState(10);
   const [selectedCustodian, setSelectedCustodian] = useState(HOME_DELIVERY.id);
-  const [custodians, setCustodians] = useState([]);
   const [quantities, setQuantities] = useState({});
   const [products, setProducts] = useState(selectedProducts);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown(prevCountdown => {
-        if (prevCountdown <= 1) {
-          setCountdown(10);
-          loadNewPrices();
-          return 10;
-        }
-        return prevCountdown - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const fetchCustodianservices = async () => {
-      try {
-        const data = await fetchCustodyServices();
-        setCustodians([HOME_DELIVERY, ...data]);
-      } catch (error) {
-        console.error("Error fetching custodians data:", error);
-      }
-    };
-
-    fetchCustodianservices();
-  }, []);
+  const countdown = useCountdown(10, () => loadNewPrices());
+  const [custodians, setCustodians] = useCustodyServices(HOME_DELIVERY);
 
   useEffect(() => {
     const initialQuantities = selectedProducts.reduce((acc, product) => {
@@ -72,10 +47,14 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
     );
   };
 
-  const totalSum = products.reduce((sum, product) => {
-    const quantity = quantities[product.id] || 1;
-    return sum + (quantity * parseFloat(product.price));
-  }, 0);
+  const calculateTotalSum = (products, quantities) => {
+    return products.reduce((sum, product) => {
+      const quantity = quantities[product.id] || 1;
+      return sum + (quantity * parseFloat(product.price));
+    }, 0);
+  };
+
+  const totalSum = calculateTotalSum(products, quantities);
 
   const updateProducts = (updatedProducts) => {
     if (!Array.isArray(updatedProducts)) {

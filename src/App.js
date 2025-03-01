@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import Portfolio from "./components/Portfolio";
-import ProductRequest from "./components/ProductRequest";
-import ReferenceData from "./components/ReferenceData";
-import Products from "./components/Products";
+import Portfolio from "./components/features/Portfolio/Portfolio";
+import ProductRequest from "./components/features/ProductRequest/ProductRequest";
+import ReferenceData from "./components/features/ReferenceData/ReferenceData";
+import Products from "./components/features/Products/Products";
 import APIDocs from "./components/APIDocs";
 import logo from "./assets/logo.webp";
 

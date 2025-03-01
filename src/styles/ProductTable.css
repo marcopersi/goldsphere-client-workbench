@@ -1,0 +1,24 @@
+.product-table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+.product-table th,
+.product-table td {
+  border: 1px solid silver;
+  padding: 10px;
+}
+
+.product-table th {
+  background: linear-gradient(to bottom, silver, black);
+  color: white;
+}
+
+.product-table input {
+  font-size: 16px;
+  width: 60px;
+  font-weight: bold;
+  text-align: center;
+  appearance: textfield;
+}

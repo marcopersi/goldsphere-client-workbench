@@ -40,6 +40,19 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 well, it lints :-) 
 
 
+## directory structure
+### components: 
+Enthält die React-Komponenten.
+
+### src/hooks: 
+Enthält die Custom Hooks.
+
+### src/api.js: 
+Enthält die API-Aufrufe.
+
+
+
+
 ### Analyzing the Bundle Size
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)

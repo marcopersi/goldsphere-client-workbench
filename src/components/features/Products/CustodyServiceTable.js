@@ -1,20 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../../../styles/CustodyServiceTable.css';
 
 const CustodyServiceTable = ({ custodians, selectedCustodian, setSelectedCustodian, handleCustodyServiceChange, t }) => (
-  <table style={{ borderCollapse: "collapse", width: "100%", textAlign: "center" }}>
+  <table className="custody-service-table">
     <thead>
-      <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
-        <th style={{ border: "1px solid silver", padding: "10px" }}>{t('select')}</th>
-        <th style={{ border: "1px solid silver", padding: "10px" }}>{t('custodyservicename')}</th>
-        <th style={{ border: "1px solid silver", padding: "10px" }}>{t('fee')}</th>
-        <th style={{ border: "1px solid silver", padding: "10px" }}>{t('paymentfrequency')}</th>
+      <tr>
+        <th>{t('select')}</th>
+        <th>{t('custodyservicename')}</th>
+        <th>{t('fee')}</th>
+        <th>{t('paymentfrequency')}</th>
       </tr>
     </thead>
     <tbody>
-      {custodians.map(custodian => (
+      {custodians.map((custodian, index) => (
         <tr key={custodian.id}>
-          <td style={{ border: "1px solid silver", padding: "10px" }}>
+          <td>
             <input
               type="radio"
               name="custodian"
@@ -23,14 +24,13 @@ const CustodyServiceTable = ({ custodians, selectedCustodian, setSelectedCustodi
               onChange={() => setSelectedCustodian(custodian.id)}
             />
           </td>
-          <td style={{ border: "1px solid silver", padding: "10px" }}>
+          <td>
             {custodian.id === 'home_delivery' ? (
               custodian.custodyservicename
             ) : (
               <select
                 value={custodian.custodyServiceId || ''}
                 onChange={(e) => handleCustodyServiceChange(custodian.id, e.target.value)}
-                style={{ width: '100%' }}
               >
                 <option value="" disabled>{t('select')}</option>
                 {custodians
@@ -43,8 +43,8 @@ const CustodyServiceTable = ({ custodians, selectedCustodian, setSelectedCustodi
               </select>
             )}
           </td>
-          <td style={{ border: "1px solid silver", padding: "10px" }}>{custodian.fee}</td>
-          <td style={{ border: "1px solid silver", padding: "10px" }}>{custodian.paymentfrequency}</td>
+          <td>{custodian.fee}</td>
+          <td>{custodian.paymentfrequency}</td>
         </tr>
       ))}
     </tbody>
@@ -52,7 +52,12 @@ const CustodyServiceTable = ({ custodians, selectedCustodian, setSelectedCustodi
 );
 
 CustodyServiceTable.propTypes = {
-  custodians: PropTypes.arrayOf(PropTypes.object).isRequired,
+  custodians: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    custodyservicename: PropTypes.string.isRequired,
+    fee: PropTypes.string.isRequired,
+    paymentfrequency: PropTypes.string.isRequired,
+  })).isRequired,
   selectedCustodian: PropTypes.string.isRequired,
   setSelectedCustodian: PropTypes.func.isRequired,
   handleCustodyServiceChange: PropTypes.func.isRequired,

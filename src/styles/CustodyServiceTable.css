@@ -1,0 +1,20 @@
+.custody-service-table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+.custody-service-table th,
+.custody-service-table td {
+  border: 1px solid silver;
+  padding: 10px;
+}
+
+.custody-service-table th {
+  background: linear-gradient(to bottom, silver, black);
+  color: white;
+}
+
+.custody-service-table select {
+  width: 100%;
+}
