@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
@@ -6,6 +6,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Flag from 'react-world-flags';
 import { format, isValid } from 'date-fns';
+import './ProductOrder.css'; // Neue CSS-Datei für Stile
 
 const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false }) => {
   const { t } = useTranslation();
@@ -29,19 +30,19 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
     }
   };
 
-  const handleCheckboxChange = (product) => {
+  const handleCheckboxChange = useCallback((product) => {
     const newSelectedRows = selectedRows.includes(product)
       ? selectedRows.filter(item => item !== product)
       : [...selectedRows, product];
 
     setSelectedRows(newSelectedRows);
-  };
+  }, [selectedRows]);
 
-  const handleHeaderCheckboxChange = (e) => {
+  const handleHeaderCheckboxChange = useCallback((e) => {
     const allSelected = e.target.checked;
     const newSelectedRows = allSelected ? data : [];
     setSelectedRows(newSelectedRows);
-  };
+  }, [data]);
 
   const renderCell = (item, column) => {
     if (column.accessor.includes('createdat') || column.accessor.includes('updatedat') || column.accessor.includes('purchasedate')) {
@@ -60,46 +61,48 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
   };
 
   return (
-    <table style={{ borderCollapse: "collapse", width: "80%", textAlign: "center" }}>
-      <thead>
-        <tr style={{ background: "linear-gradient(to bottom, silver, black)", color: "white" }}>
-          {selectable && (
-            <th style={{ border: "1px solid silver", padding: "5px" }}>
-              <input
-                type="checkbox"
-                onChange={handleHeaderCheckboxChange}
-                checked={selectedRows.length > 0 && selectedRows.length === data.length}
-              />
-            </th>
-          )}
-          {columns.map((column) => (
-            <th key={column.accessor} style={{ border: "1px solid silver", padding: "5px" }}>
-              {t(column.header.charAt(0).toUpperCase() + column.header.slice(1))}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((item) => (
-          <tr key={item.id}>
+    <div className="table-container">
+      <table className="enhanced-table">
+        <thead>
+          <tr className="table-header">
             {selectable && (
-              <td style={{ border: "1px solid silver", padding: "5px" }}>
+              <th className="table-cell">
                 <input
                   type="checkbox"
-                  checked={selectedRows.includes(item)}
-                  onChange={() => handleCheckboxChange(item)}
+                  onChange={handleHeaderCheckboxChange}
+                  checked={selectedRows.length > 0 && selectedRows.length === data.length}
                 />
-              </td>
+              </th>
             )}
             {columns.map((column) => (
-              <td key={column.accessor} style={{ border: "1px solid silver", padding: "5px" }}>
-                {renderCell(item, column)}
-              </td>
+              <th key={column.accessor} className="table-cell">
+                {t(column.header.charAt(0).toUpperCase() + column.header.slice(1))}
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map((item) => (
+            <tr key={item.id}>
+              {selectable && (
+                <td className="table-cell">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(item)}
+                    onChange={() => handleCheckboxChange(item)}
+                  />
+                </td>
+              )}
+              {columns.map((column) => (
+                <td key={column.accessor} className="table-cell">
+                  {renderCell(item, column)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
@@ -125,7 +128,6 @@ const ProductOrder = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get('http://localhost:11215/api/orders');
-        console.info("requested orders returned:", response.data);
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders data:", error);
@@ -134,11 +136,11 @@ const ProductOrder = () => {
     fetchOrders();
   }, []);
 
-  const handleSelectionChange = (selectedRows) => {
+  const handleSelectionChange = useCallback((selectedRows) => {
     setSelectedOrders(selectedRows);
-  };
+  }, []);
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     try {
       await Promise.all(selectedOrders.map(order => axios.delete(`http://localhost:11215/api/orders/${order.id}`)));
       setOrders(prevOrders => prevOrders.filter(order => !selectedOrders.includes(order)));
@@ -146,9 +148,9 @@ const ProductOrder = () => {
     } catch (error) {
       console.error("Error deleting orders:", error);
     }
-  };
+  }, [selectedOrders]);
 
-  const handleProcessOrder = async () => {
+  const handleProcessOrder = useCallback(async () => {
     try {
       const responses = await Promise.all(selectedOrders.map(order => axios.put(`http://localhost:11215/api/orders/process/${order.id}`)));
       const updatedOrders = responses.map(response => response.data);
@@ -180,13 +182,13 @@ const ProductOrder = () => {
         console.error("Error processing orders:", error);
       }
     }
-  };
+  }, [selectedOrders, t]);
 
-  const handleSnackbarClose = (id) => {
+  const handleSnackbarClose = useCallback((id) => {
     setSnackbarQueue(prevQueue => prevQueue.filter(snackbar => snackbar.id !== id));
-  };
+  }, []);
 
-  const orderColumns = [
+  const orderColumns = useMemo(() => [
     { header: t("user"), accessor: "username" },
     { header: t("productname"), accessor: "productname" },
     { header: t("quantity"), accessor: "quantity" },
@@ -195,52 +197,24 @@ const ProductOrder = () => {
     { header: t("custodyservice"), accessor: "custodyservicename" },
     { header: t("createdat"), accessor: "createdat" },
     { header: t("updatedat"), accessor: "updatedat" }
-  ];
+  ], [t]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
+    <div className="product-order-container">
       <h2>{t('productRequest')}</h2>
       <EnhancedTable data={orders} columns={orderColumns} onSelectionChange={handleSelectionChange} selectable={true} />
-      <div style={{ display: "flex", justifyContent: "flex-end", width: "80%", gap: "10px" }}>
+      <div className="button-container">
         <button
-          style={{
-            padding: "10px 20px",
-            border: "1px solid silver",
-            borderRadius: "5px",
-            background: "linear-gradient(to bottom, silver, black)",
-            color: "white",
-            cursor: selectedOrders.length > 0 ? "pointer" : "not-allowed",
-            opacity: selectedOrders.length > 0 ? 1 : 0.5
-          }}
+          className="action-button"
           disabled={selectedOrders.length === 0}
           onClick={handleProcessOrder}
-          onMouseOver={(e) => {
-            e.target.style.background = "linear-gradient(to bottom, gold, black)";
-          }}
-          onMouseOut={(e) => {
-            e.target.style.background = "linear-gradient(to bottom, silver, black)";
-          }}
         >
           {t('processOrder')}
         </button>
         <button
-          style={{
-            padding: "10px 20px",
-            border: "1px solid silver",
-            borderRadius: "5px",
-            background: "linear-gradient(to bottom, silver, black)",
-            color: "white",
-            cursor: selectedOrders.length > 0 ? "pointer" : "not-allowed",
-            opacity: selectedOrders.length > 0 ? 1 : 0.5
-          }}
+          className="action-button"
           disabled={selectedOrders.length === 0}
           onClick={handleDelete}
-          onMouseOver={(e) => {
-            e.target.style.background = "linear-gradient(to bottom, gold, black)";
-          }}
-          onMouseOut={(e) => {
-            e.target.style.background = "linear-gradient(to bottom, silver, black)";
-          }}
         >
           {t('delete')}
         </button>

@@ -4,6 +4,7 @@ import MultiSelectDropDown from "../../common/MultiSelectDropDown";
 import Checkout from "./Checkout";
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import './Products.css'; // Neue CSS-Datei für Stile
 
 const Products = () => {
   const { t } = useTranslation();
@@ -28,7 +29,6 @@ const Products = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get('http://localhost:11215/api/products');
-        console.info("requested products returned:", response.data);
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products data:", error);
@@ -93,17 +93,17 @@ const Products = () => {
     { header: t("productname"), accessor: "productname" },
     { header: t("producttype"), accessor: "producttype" },
     { header: t("metal"), accessor: "metal" },
-    { header: t("issuingcountry"), accessor: "issuingcountry" },
-    { header: t("producer"), accessor: "producer" },
+    { header: t("issuingcountry"), accessor: "issuingcountry", className: "table-cell-issuingcountry" },
+    { header: t("producer"), accessor: "producer", className: "table-cell-producer" },
     { header: t("fineweight"), accessor: "fineweight" },
     { header: t("unitofmeasure"), accessor: "unitofmeasure" },
     { header: t("price"), accessor: "price" }
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
+    <div className="products-container">
       <h2>{t('products')}</h2>
-      <div className="filters" style={{ display: "flex", justifyContent: "center", marginBottom: "20px", gap: "20px" }}>
+      <div className="filters">
         <MultiSelectDropDown
           label={t("producer")}
           options={sortedProducers.map((producer) => ({ name: producer }))}
@@ -132,31 +132,16 @@ const Products = () => {
           onChange={(value) => handleFilterChange("metals", value)}
         />
       </div>
-      <EnhancedTable data={filteredProducts} columns={productColumns} onSelectionChange={handleSelectionChange} selectable={true}/>
-      <div style={{ display: "flex", justifyContent: "flex-end", width: "80%" }}>    
+      <div className="table-container">
+        <EnhancedTable data={filteredProducts} columns={productColumns} onSelectionChange={handleSelectionChange} selectable={true}/>
+      </div>
+      <div className="button-container">    
         <button
-          style={{
-            padding: "10px 20px",
-            border: "1px solid silver",
-            borderRadius: "5px",
-            background: "linear-gradient(to bottom, gold, silver)",
-            color: "white",
-            cursor: selectedProducts.length > 0 ? "pointer" : "not-allowed",
-            opacity: selectedProducts.length > 0 ? 1 : 0.5
-          }}
+          className="action-button"
           disabled={selectedProducts.length === 0}
           onClick={handleBuyClick}
-          onMouseOver={(e) => {
-            e.target.style.background = "linear-gradient(to bottom, silver, black)";
-          }}
-
-          onMouseOut={(e) => {
-            e.target.style.background = "linear-gradient(to bottom, gold, black)";
-          }}
-          >
-          {
-            t("buy")
-          }
+        >
+          {t("buy")}
         </button>
       </div>
       {showPopup && (

@@ -1,0 +1,20 @@
+.table-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.enhanced-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.table-header {
+  background: linear-gradient(to bottom, silver, black);
+  color: white;
+}
+
+.table-cell {
+  border: 1px solid silver;
+  padding: 10px;
+}

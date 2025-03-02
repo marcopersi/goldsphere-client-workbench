@@ -1,0 +1,53 @@
+.product-order-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.table-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.enhanced-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.table-header {
+  background: linear-gradient(to bottom, silver, black);
+  color: white;
+}
+
+.table-cell {
+  border: 1px solid silver;
+  padding: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 80%;
+  gap: 10px;
+}
+
+.action-button {
+  padding: 10px 20px;
+  border: 1px solid silver;
+  border-radius: 5px;
+  background: linear-gradient(to bottom, silver, black);
+  color: white;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.action-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.action-button:hover {
+  background: linear-gradient(to bottom, gold, black);
+}
