@@ -115,7 +115,7 @@ EnhancedTable.propTypes = {
   selectable: PropTypes.bool,
 };
 
-const ProductRequest = () => {
+const ProductOrder = () => {
   const { t } = useTranslation();
   const [orders, setOrders] = useState([]);
   const [selectedOrders, setSelectedOrders] = useState([]);
@@ -171,9 +171,10 @@ const ProductRequest = () => {
       setSelectedOrders([]);
     } catch (error) {
       if (error.response && error.response.status === 400) {
+        const errorMessage = error.response.data.error || t('errorProcessingOrder');
         setSnackbarQueue(prevQueue => [
           ...prevQueue,
-          { id: Date.now(), message: `Fehler: ${error.response.data}`, severity: 'error' }
+          { id: Date.now(), message: `Fehler: ${errorMessage}`, severity: 'error' }
         ]);
       } else {
         console.error("Error processing orders:", error);
@@ -261,4 +262,4 @@ const ProductRequest = () => {
   );
 };
 
-export default ProductRequest;
+export default ProductOrder;

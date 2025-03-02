@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import Portfolio from "./components/features/Portfolio/Portfolio";
-import ProductRequest from "./components/features/ProductRequest/ProductRequest";
+import ProductRequest from "./components/features/ProductOrder/ProductOrder";
 import ReferenceData from "./components/features/ReferenceData/ReferenceData";
 import Products from "./components/features/Products/Products";
 import APIDocs from "./components/APIDocs";
