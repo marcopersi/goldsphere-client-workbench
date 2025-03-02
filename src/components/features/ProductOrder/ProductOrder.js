@@ -6,7 +6,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import Flag from 'react-world-flags';
 import { format, isValid } from 'date-fns';
-import './ProductOrder.css'; // Neue CSS-Datei für Stile
+import './ProductOrder.css'; 
 
 const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false }) => {
   const { t } = useTranslation();
@@ -17,7 +17,6 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
   }, [selectedRows, onSelectionChange]);
 
   useEffect(() => {
-    // Reset selected rows when data changes
     setSelectedRows([]);
   }, [data]);
 
@@ -204,13 +203,13 @@ const ProductOrder = () => {
       <h2>{t('productRequest')}</h2>
       <EnhancedTable data={orders} columns={orderColumns} onSelectionChange={handleSelectionChange} selectable={true} />
       <div className="button-container">
-        <button
-          className="action-button"
+        <button 
+          className="action-button"  
           disabled={selectedOrders.length === 0}
           onClick={handleProcessOrder}
         >
           {t('processOrder')}
-        </button>
+        </button> 
         <button
           className="action-button"
           disabled={selectedOrders.length === 0}

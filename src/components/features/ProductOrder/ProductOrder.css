@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .table-container {
@@ -28,16 +28,18 @@
 
 .button-container {
   display: flex;
-  justify-content: flex-end;
-  width: 80%;
-  gap: 10px;
+  justify-content: flex-end; /* Stellt sicher, dass die Buttons rechts ausgerichtet sind */
+  width: 80%; /* Gleiche Breite wie der table-container */
+  gap: 10px; /* Abstand zwischen den Buttons */
+  margin: 0 auto; /* Zentriert den Container */
+  padding-right: 10px; /* Stellt sicher, dass die Buttons nicht am Rand kleben */
 }
 
 .action-button {
-  padding: 10px 20px;
+  padding: 10px 20px; /* Stellt sicher, dass die Buttons eine angemessene Größe haben */
   border: 1px solid silver;
   border-radius: 5px;
-  background: linear-gradient(to bottom, silver, black);
+  background: linear-gradient(to bottom, #c0c0c0, black);
   color: white;
   cursor: pointer;
   opacity: 1;
