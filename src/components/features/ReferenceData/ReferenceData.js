@@ -10,93 +10,46 @@ const ReferenceData = () => {
   const [custodians, setCustodians] = useState([]);
   const [countries, setCountries] = useState([]);
   const [productTypes, setProductTypes] = useState([]);
-  const [producers, setproducers] = useState([]);
-  const [orderstatus, setorderstatus] = useState([]);
-  const [custodyservices, setcustodyservices] = useState([]);
-
-  console.info("ReferenceData component rendered");
+  const [producers, setProducers] = useState([]);
+  const [orderStatus, setOrderStatus] = useState([]);
+  const [custodyServices, setCustodyServices] = useState([]);
 
   // Fetch data
   useEffect(() => {
-    const fetchMetals = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:11215/api/references/metals');
-        console.info("requested metals returned:", response.data);
-        setMetals(response.data);
+        const [
+          metalsResponse,
+          custodiansResponse,
+          countriesResponse,
+          productTypesResponse,
+          producersResponse,
+          orderStatusResponse,
+          custodyServicesResponse
+        ] = await Promise.all([
+          axios.get('http://localhost:11215/api/references/metals'),
+          axios.get('http://localhost:11215/api/custodians'),
+          axios.get('http://localhost:11215/api/references/issuingCountries'),
+          axios.get('http://localhost:11215/api/references/productTypes'),
+          axios.get('http://localhost:11215/api/references/producers'),
+          axios.get('http://localhost:11215/api/references/orderstatus'),
+          axios.get('http://localhost:11215/api/custodyServices')
+        ]);
+
+        setMetals(metalsResponse.data);
+        setCustodians(custodiansResponse.data);
+        setCountries(countriesResponse.data);
+        setProductTypes(productTypesResponse.data);
+        setProducers(producersResponse.data);
+        setOrderStatus(orderStatusResponse.data);
+        setCustodyServices(custodyServicesResponse.data);
       } catch (error) {
-        console.error("Error fetching metals data:", error);
+        console.error("Error fetching reference data:", error);
       }
     };
 
-    const fetchCustodians = async () => {
-      try {
-        const response = await axios.get('http://localhost:11215/api/custodians');
-        console.info("requested custodians returned:", response.data);
-        setCustodians(response.data);
-      } catch (error) {
-        console.error("Error fetching custodians data:", error);
-      }
-    };
-
-    const fetchIssuingCountries = async () => {
-      try {
-        const response = await axios.get('http://localhost:11215/api/references/issuingCountries');
-        console.info("requested countries returned:", response.data);
-        setCountries(response.data);
-      } catch (error) {
-        console.error("Error fetching countries data:", error);
-      }
-    };
-
-    const fetchProductTypes = async () => {
-      try {
-        const response = await axios.get('http://localhost:11215/api/references/productTypes');
-        console.info("requested product types returned:", response.data);
-        setProductTypes(response.data);
-      } catch (error) {
-        console.error("Error fetching product types data:", error);
-      } 
-    };
-
-    const fetchproducers = async () => {
-      try {
-        const response = await axios.get('http://localhost:11215/api/references/producers');
-        console.info("requested producers returned:", response.data);
-        setproducers(response.data);
-      } catch (error) {
-        console.error("Error fetching producers data:", error);
-      }
-    };  
-
-    const fetchorderstatus = async () => {
-      try {
-        const response = await axios.get('http://localhost:11215/api/references/orderstatus');
-        console.info("requested orderstatus returned:", response.data);
-        setorderstatus(response.data);
-      } catch (error) {
-        console.error("Error fetching orderstatus data:", error);
-      }
-    };
-
-    const fetchCustodyServices = async () => {
-      try {
-        const response = await axios.get('http://localhost:11215/api/custodyServices');
-        console.info("requested custody services returned:", response.data);
-        setcustodyservices(response.data);
-      } catch (error) {
-        console.error("Error fetching custody services data:", error);
-      }
-    };
-
-      console.info("useEffect triggered");
-      fetchMetals();
-      fetchCustodians();
-      fetchIssuingCountries();
-      fetchProductTypes();
-      fetchproducers();
-      fetchorderstatus();
-      fetchCustodyServices();
-    }, []);
+    fetchData();
+  }, [t]);
 
   const metalColumns = [
     { header: t("name"), accessor: "metalname" },
@@ -163,11 +116,10 @@ const ReferenceData = () => {
       <EnhancedTable data={producers} columns={producerColumns} />
 
       <h2>{t('orderstatus')}</h2>
-      <EnhancedTable data={orderstatus} columns={orderStatusColumns} />
+      <EnhancedTable data={orderStatus} columns={orderStatusColumns} />
 
       <h2>{t('custodyservices')}</h2>
-      <EnhancedTable data={custodyservices} columns={custodyServicesColumns} />
-
+      <EnhancedTable data={custodyServices} columns={custodyServicesColumns} />
     </div>
   );
 };
