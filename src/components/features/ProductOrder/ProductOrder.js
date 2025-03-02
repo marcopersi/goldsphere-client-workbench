@@ -212,7 +212,7 @@ const ProductOrder = () => {
       <EnhancedTable data={orders} columns={orderColumns} onSelectionChange={handleSelectionChange} selectable={true} />
       <div className="button-container">
         <button 
-          className="action-button"  
+          className="action-button process-order-button"  
           disabled={selectedOrders.length === 0}
           onClick={handleProcessOrder}
         >

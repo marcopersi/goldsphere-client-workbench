@@ -45,6 +45,10 @@
   opacity: 1;
 }
 
+.process-order-button {
+    margin-right: 10px;
+}
+
 .action-button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
