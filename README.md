@@ -8,6 +8,10 @@ Technically the product is implemented with React.
 
 In the backlog of the project is an extension using HeroUI for nice(r) themeing. However, this might be done in a separate project.
 
+## backend repository 
+find the required backend repository here 
+https://github.com/marcopersi/goldsphere-server
+
 
 ## Available Scripts
 
@@ -42,16 +46,13 @@ well, it lints :-)
 
 ## directory structure
 ### components: 
-Enthält die React-Komponenten.
+contains react components
 
 ### src/hooks: 
-Enthält die Custom Hooks.
+contains custom hooks.
 
 ### src/api.js: 
-Enthält die API-Aufrufe.
-
-
-
+contains api calls
 
 ### Analyzing the Bundle Size
 
