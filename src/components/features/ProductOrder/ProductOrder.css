@@ -28,15 +28,15 @@
 
 .button-container {
   display: flex;
-  justify-content: flex-end; /* Stellt sicher, dass die Buttons rechts ausgerichtet sind */
-  width: 80%; /* Gleiche Breite wie der table-container */
-  gap: 10px; /* Abstand zwischen den Buttons */
-  margin: 0 auto; /* Zentriert den Container */
-  padding-right: 10px; /* Stellt sicher, dass die Buttons nicht am Rand kleben */
+  justify-content: flex-end; 
+  width: 100%; 
+  gap: 10px; 
+  margin: 0 auto; 
+  padding-right: 10px; 
 }
 
 .action-button {
-  padding: 10px 20px; /* Stellt sicher, dass die Buttons eine angemessene Größe haben */
+  padding: 10px 20px; 
   border: 1px solid silver;
   border-radius: 5px;
   background: linear-gradient(to bottom, #c0c0c0, black);
