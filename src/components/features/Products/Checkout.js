@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from "prop-types";
 import ProductTable from './ProductTable';
@@ -20,6 +20,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const [selectedCustodian, setSelectedCustodian] = useState(HOME_DELIVERY.id);
   const [quantities, setQuantities] = useState({});
   const [products, setProducts] = useState(selectedProducts);
+  const [error, setError] = useState(null);
 
   const countdown = useCountdown(10, () => loadNewPrices());
   const [custodians, setCustodians] = useCustodyServices(HOME_DELIVERY);
@@ -32,31 +33,31 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
     setQuantities(initialQuantities);
   }, [selectedProducts]);
 
-  const handleQuantityChange = (productId, quantity) => {
+  const handleQuantityChange = useCallback((productId, quantity) => {
     setQuantities(prevQuantities => ({
       ...prevQuantities,
       [productId]: quantity
     }));
-  };
+  }, []);
 
-  const handleCustodyServiceChange = (custodianId, custodyServiceId) => {
+  const handleCustodyServiceChange = useCallback((custodianId, custodyServiceId) => {
     setCustodians(prevCustodians =>
       prevCustodians.map(custodian =>
         custodian.id === custodianId ? { ...custodian, custodyServiceId } : custodian
       )
     );
-  };
+  }, [setCustodians]);
 
-  const calculateTotalSum = (products, quantities) => {
+  const calculateTotalSum = useCallback((products, quantities) => {
     return products.reduce((sum, product) => {
       const quantity = quantities[product.id] || 1;
       return sum + (quantity * parseFloat(product.price));
     }, 0);
-  };
+  }, []);
 
-  const totalSum = calculateTotalSum(products, quantities);
+  const totalSum = useMemo(() => calculateTotalSum(products, quantities), [products, quantities, calculateTotalSum]);
 
-  const updateProducts = (updatedProducts) => {
+  const updateProducts = useCallback((updatedProducts) => {
     if (!Array.isArray(updatedProducts)) {
       console.error("Expected updatedProducts to be an array");
       return;
@@ -68,19 +69,20 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
         return updatedProduct ? { ...product, price: updatedProduct.price } : product;
       })
     );
-  };
+  }, []);
 
-  const loadNewPrices = async () => {
+  const loadNewPrices = useCallback(async () => {
     try {
       const productIds = selectedProducts.map(product => product.id);
       const updatedProducts = await fetchProductPrices(productIds);
       updateProducts(updatedProducts);
     } catch (error) {
       console.error("Error fetching new prices:", error);
+      setError(t('errorFetchingPrices'));
     }
-  };
+  }, [selectedProducts, updateProducts, t]);
 
-  const handleConfirm = async () => {
+  const handleConfirm = useCallback(async () => {
     const userId = '500472ff-24f0-4141-a756-f456cd3213d2'; // Hardcoded user ID
     const orders = products.map(product => ({
       userId,
@@ -95,8 +97,9 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
       onConfirm(selectedCustodian);
     } catch (error) {
       console.error('Error creating orders:', error);
+      setError(t('errorCreatingOrders'));
     }
-  };
+  }, [products, quantities, selectedCustodian, onConfirm, t]);
 
   return (
     <div className="checkout-overlay">
@@ -105,6 +108,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
         <div className="checkout-countdown">
           <p>{t('countdown')}: {countdown}</p>
         </div>
+        {error && <div className="error-message">{error}</div>}
         <ProductTable
           products={products}
           quantities={quantities}
