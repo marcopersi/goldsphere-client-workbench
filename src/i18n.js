@@ -60,6 +60,9 @@ const resources = {
       "confirm": "Confirm",
       "buy": "Buy",
       "processOrder": "Process Order",
+      "errorDeletingOrder": "Error deleting order",
+      "errorProcessingOrder": "Error processing order",
+      "orderProcessed": "Order processed to status: {{status}}",
     }
   },
   de: {
@@ -119,6 +122,9 @@ const resources = {
       "confirm": "Bestätigen",
       "buy": "Kaufen",
       "processOrder": "Bestellung prozessieren",
+      "errorDeletingOrder": "Fehler beim Löschen der Bestellung",
+      "errorProcessingOrder": "Fehler beim Verarbeiten der Bestellung",
+      "orderProcessed": "Order prozessiert zu {{status}}",
     }
   },
   fr: {
@@ -177,6 +183,9 @@ const resources = {
       "confirm": "Confirmer",
       "buy": "Acheter",
       "processOrder": "Processer la commande",
+      "errorDeletingOrder": "Erreur lors de la suppression de la commande",
+      "errorProcessingOrder": "Erreur lors du traitement de la commande",
+      "orderProcessed": "Commande traitée au statut: {{status }}"
     }
   },
   es: {
@@ -235,6 +244,9 @@ const resources = {
       "confirm": "Confirmar",
       "buy": "Comprar",
       "processOrder": "Procesar pedido",
+      "errorDeletingOrder": "Error al eliminar el pedido",
+      "errorProcessingOrder": "Error al procesar el pedido",
+      "orderProcessed": "Pedido procesado al estado: {{status}}"
     }
   },
   it: {
@@ -293,6 +305,9 @@ const resources = {
       "confirm": "Conferma",
       "buy": "Acquistare",
       "processOrder": "Processare l'ordine",
+      "errorDeletingOrder": "Errore durante l'eliminazione dell'ordine",
+      "errorProcessingOrder": "Errore durante l'elaborazione dell'ordine",
+      "orderProcessed": "Ordine elaborato allo stato: {{status}}"
     }
   },
 };

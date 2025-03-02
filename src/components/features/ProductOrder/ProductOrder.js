@@ -146,8 +146,12 @@ const ProductOrder = () => {
       setSelectedOrders([]);
     } catch (error) {
       console.error("Error deleting orders:", error);
+      setSnackbarQueue(prevQueue => [
+        ...prevQueue,
+        { id: Date.now(), message: t('errorDeletingOrder'), severity: 'error' }
+      ]);
     }
-  }, [selectedOrders]);
+  }, [selectedOrders, t]);
 
   const handleProcessOrder = useCallback(async () => {
     try {
@@ -157,7 +161,7 @@ const ProductOrder = () => {
       updatedOrders.forEach(order => {
         setSnackbarQueue(prevQueue => [
           ...prevQueue,
-          { id: order.id, message: `Die Order wurde erfolgreich in den Status "${order.orderstatus}" prozessiert.`, severity: 'success' }
+          { id: order.id, message: t('orderProcessed', { status: order.orderstatus }), severity: 'success' }
         ]);
       });
 
@@ -179,6 +183,10 @@ const ProductOrder = () => {
         ]);
       } else {
         console.error("Error processing orders:", error);
+        setSnackbarQueue(prevQueue => [
+          ...prevQueue,
+          { id: Date.now(), message: t('errorProcessingOrder'), severity: 'error' }
+        ]);
       }
     }
   }, [selectedOrders, t]);
