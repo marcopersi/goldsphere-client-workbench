@@ -9,7 +9,7 @@ import APIDocs from "./components/APIDocs";
 import logo from "./assets/logo.webp";
 import './App.css'; // Neue CSS-Datei für Stile
 
-const Home = () => <h2 align="center">Welcome to GoldSphere</h2>;
+const Home = () => <h2 style={{ textAlign: 'center' }}>Welcome to GoldSphere</h2>;
 
 const App = () => {
   const { t, i18n } = useTranslation();
