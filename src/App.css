@@ -1,0 +1,59 @@
+.App-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .logo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .nav-container {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .nav-link {
+    padding: 10px 20px;
+    border: 1px solid silver;
+    border-radius: 5px;
+    background: linear-gradient(to bottom, gold, black);
+    color: white;
+    text-decoration: none;
+  }
+  
+  .language-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .language-select {
+    padding: 10px;
+    border-radius: 5px;
+    background: linear-gradient(to bottom, gold, black);
+    color: white;
+    border: 1px solid silver;
+    font-size: 18px;
+  }
+  
+  .more-button {
+    padding: 5px 10px;
+    border: 1px solid silver;
+    border-radius: 5px;
+    background: linear-gradient(to bottom, gold, black);
+    color: white;
+    cursor: pointer;
+  }
+  
+  .main-content {
+    padding: 20px;
+  }
