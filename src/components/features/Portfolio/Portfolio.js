@@ -27,6 +27,10 @@ const Portfolio = () => {
 
   }, []);
 
+  const handleSelectionChange = (selectedRows) => {
+    // Leerer Handler für onSelectionChange
+  };
+
   const portfolioColumns = [
     { header: t("quantity"), accessor: "quantity" },
     { header: t("productname"), accessor: "productname" },
@@ -42,7 +46,7 @@ const Portfolio = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
       <h2 style={{ color: "gold" }}>{t('yourPortfolio')}</h2>
-      <EnhancedTable data={portfolio} columns={portfolioColumns} />
+      <EnhancedTable data={portfolio} columns={portfolioColumns} onSelectionChange={handleSelectionChange} />
     </div>
   );
 }
