@@ -58,7 +58,8 @@ const resources = {
       "paymentfrequency": "Payment Frequency",
       "cancel": "Cancel",
       "confirm": "Confirm",
-      "buy": "Buy"
+      "buy": "Buy",
+      "processOrder": "Process Order",
     }
   },
   de: {
@@ -116,7 +117,8 @@ const resources = {
       "paymentfrequency": "Fälligkeit",
       "cancel": "Abbrechen",
       "confirm": "Bestätigen",
-      "buy": "Kaufen"
+      "buy": "Kaufen",
+      "processOrder": "Bestellung prozessieren",
     }
   },
   fr: {
@@ -173,7 +175,8 @@ const resources = {
       "paymentfrequency": "Paiement",
       "cancel": "Annuler",
       "confirm": "Confirmer",
-      "buy": "Acheter"
+      "buy": "Acheter",
+      "processOrder": "Processer la commande",
     }
   },
   es: {
@@ -230,7 +233,8 @@ const resources = {
       "paymentfrequency": "Pago",
       "cancel": "Cancelar",
       "confirm": "Confirmar",
-      "buy": "Comprar"
+      "buy": "Comprar",
+      "processOrder": "Procesar pedido",
     }
   },
   it: {
@@ -287,7 +291,8 @@ const resources = {
       "paymentfrequency": "Pagamento",
       "cancel": "Annulla",
       "confirm": "Conferma",
-      "buy": "Acquistare"
+      "buy": "Acquistare",
+      "processOrder": "Processare l'ordine",
     }
   },
 };
