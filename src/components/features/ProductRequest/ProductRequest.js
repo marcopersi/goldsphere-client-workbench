@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
@@ -100,6 +101,18 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
       </tbody>
     </table>
   );
+};
+
+EnhancedTable.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      header: PropTypes.string.isRequired,
+      accessor: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  onSelectionChange: PropTypes.func.isRequired,
+  selectable: PropTypes.bool,
 };
 
 const ProductRequest = () => {

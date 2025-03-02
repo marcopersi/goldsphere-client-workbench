@@ -27,7 +27,7 @@ const Portfolio = () => {
 
   }, []);
 
-  const handleSelectionChange = (selectedRows) => {
+  const handleSelectionChange = () => {
     // Leerer Handler für onSelectionChange
   };
 
