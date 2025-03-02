@@ -7,25 +7,22 @@ const Portfolio = () => {
   const { t } = useTranslation();
 
   const [portfolio, setPortfolio] = useState([]);
+  const [error, setError] = useState(null);
 
-  console.info("Portfolio component rendered");
-
-   // Fetch data
-   useEffect(() => {
+  // Fetch data
+  useEffect(() => {
     const fetchPortfolio = async () => {
       try {
         const response = await axios.get('http://localhost:11215/api/portfolios');
-        console.info("requested portfolios returned:", response.data);
         setPortfolio(response.data);
       } catch (error) {
         console.error("Error fetching portfolio data:", error);
+        setError(t('errorFetchingData'));
       }
     };
 
-    console.info("useEffect triggered");
     fetchPortfolio();
-
-  }, []);
+  }, [t]);
 
   const handleSelectionChange = () => {
     // Leerer Handler für onSelectionChange
@@ -46,7 +43,11 @@ const Portfolio = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "20px" }}>
       <h2 style={{ color: "gold" }}>{t('yourPortfolio')}</h2>
-      <EnhancedTable data={portfolio} columns={portfolioColumns} onSelectionChange={handleSelectionChange} />
+      {error ? (
+        <div style={{ color: 'red' }}>{error}</div>
+      ) : (
+        <EnhancedTable data={portfolio} columns={portfolioColumns} onSelectionChange={handleSelectionChange} />
+      )}
     </div>
   );
 }
