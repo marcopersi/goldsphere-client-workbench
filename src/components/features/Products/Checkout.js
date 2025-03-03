@@ -6,6 +6,8 @@ import CustodyServiceTable from './CustodyServiceTable';
 import { fetchProductPrices, createOrders } from '../../api/api';
 import useCountdown from '../../../hooks/useCountdown';
 import useCustodyServices from '../../../hooks/useCustodyServices';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Card, CardBody, CardHeader, FormGroup, Label, Input, Button, Collapse } from 'reactstrap';
 import '../../../styles/Checkout.css';
 
 const HOME_DELIVERY = {
@@ -21,6 +23,8 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const [quantities, setQuantities] = useState({});
   const [products, setProducts] = useState(selectedProducts);
   const [error, setError] = useState(null);
+  const [isProductTableOpen, setIsProductTableOpen] = useState(true);
+  const [isCustodyServiceOpen, setIsCustodyServiceOpen] = useState(true);
 
   const countdown = useCountdown(10, () => loadNewPrices());
   const [custodians, setCustodians] = useCustodyServices(HOME_DELIVERY);
@@ -101,42 +105,86 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
     }
   }, [products, quantities, selectedCustodian, onConfirm, t]);
 
+  // provanance fee is 1% of the total sum
+  const provenanceFee = (totalSum * 0.01).toFixed(2);
+
   return (
     <div className="checkout-overlay">
       <div className="checkout-container">
-        <h2>{t('checkout')}</h2>
-        <div className="checkout-countdown">
-          <p>{t('countdown')}: {countdown}</p>
-        </div>
-        {error && <div className="error-message">{error}</div>}
-        <ProductTable
-          products={products}
-          quantities={quantities}
-          handleQuantityChange={handleQuantityChange}
-          totalSum={totalSum}
-          t={t}
-        />
-        <h3>{t('custodyservice')}</h3>
-        <CustodyServiceTable
-          custodians={custodians}
-          selectedCustodian={selectedCustodian}
-          setSelectedCustodian={setSelectedCustodian}
-          handleCustodyServiceChange={handleCustodyServiceChange}
-          t={t}
-        />
+          <h3>{t('checkout')}</h3>
+          <div className="checkout-countdown">
+            <p>{t('countdown')}: {countdown}</p>
+          </div>
+          {error && <div className="error-message">{error}</div>}
+          <div className="mb-3">
+            <Card>
+              <CardHeader 
+                onClick={() => setIsProductTableOpen(!isProductTableOpen)}
+                style={{ cursor: 'pointer', background: 'linear-gradient(to bottom, silver, black)', color: 'white' }}
+              >
+              {t('products')}
+              </CardHeader>
+              <Collapse isOpen={isProductTableOpen}>
+                  <CardBody>
+                    <ProductTable
+                      products={products}
+                      quantities={quantities}
+                      handleQuantityChange={handleQuantityChange}
+                      totalSum={totalSum}
+                      t={t}
+                    />
+                  </CardBody>
+              </Collapse>
+            </Card>
+          </div>
+        <Card className="mb-3 py-2">
+          <CardHeader
+            onClick={() => setIsCustodyServiceOpen(!isCustodyServiceOpen)}
+            style={{ cursor: 'pointer', background: 'linear-gradient(to bottom, silver, black)', color: 'white' }}
+          >
+            {t('custodyservice')}
+          </CardHeader>
+          <Collapse isOpen={isCustodyServiceOpen}>
+            <CardBody>
+              <CustodyServiceTable
+                custodians={custodians}
+                selectedCustodian={selectedCustodian}
+                setSelectedCustodian={setSelectedCustodian}
+                handleCustodyServiceChange={handleCustodyServiceChange}
+                t={t}
+              />
+            </CardBody>
+          </Collapse>
+        </Card>
+        <Card className="mb-3 py-2">
+          <CardHeader style={{ background: 'linear-gradient(to bottom, silver, black)', color: 'white' }}>
+            {t('trustedsourcing')}
+          </CardHeader>
+          <CardBody>
+            <table className="trusted-sourcing-table">
+              <tbody>
+                <tr>
+                  <td>
+                    <FormGroup check>
+                      <Label check>
+                        <Input type="checkbox" />{' '}
+                        {t('goldprovenancestatement')}
+                      </Label>
+                    </FormGroup>
+                  </td>
+                  <td>{provenanceFee} CHF</td>
+                </tr>
+              </tbody>
+            </table>
+          </CardBody>
+        </Card>
         <div className="checkout-buttons">
-          <button
-            className="checkout-button"
-            onClick={onClose}
-          >
+          <Button class="action-button" onClick={onClose}>
             {t('cancel')}
-          </button>
-          <button
-            className="checkout-button"
-            onClick={handleConfirm}
-          >
+          </Button>
+          <Button class="action-button" onClick={handleConfirm}>
             {t('confirm')}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

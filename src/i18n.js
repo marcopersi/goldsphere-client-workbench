@@ -63,6 +63,8 @@ const resources = {
       "errorDeletingOrder": "Error deleting order",
       "errorProcessingOrder": "Error processing order",
       "orderProcessed": "Order processed to status: {{status}}",
+      "trustedsourcing": "Gold provenance certificate",
+      "goldprovenancestatement": "Do you want to have a certified provenance of the Gold in your products? This service is provided by the Bullion Integrity Ledger. It costs you a premium of 1%",
     }
   },
   de: {
@@ -125,6 +127,8 @@ const resources = {
       "errorDeletingOrder": "Fehler beim Löschen der Bestellung",
       "errorProcessingOrder": "Fehler beim Verarbeiten der Bestellung",
       "orderProcessed": "Order prozessiert zu {{status}}",
+      "trustedsourcing": "Zertifizierte Gold Herkunft",
+      "goldprovenancestatement": "Möchten Sie eine zertifizierte Herkunft des Goldes von Ihrem Produkt? Dieser Service wird vom Bullion Integrity Ledger angeboten. Er kostet Sie einen Aufschlag von 1%"
     }
   },
   fr: {
@@ -185,7 +189,9 @@ const resources = {
       "processOrder": "Processer la commande",
       "errorDeletingOrder": "Erreur lors de la suppression de la commande",
       "errorProcessingOrder": "Erreur lors du traitement de la commande",
-      "orderProcessed": "Commande traitée au statut: {{status }}"
+      "orderProcessed": "Commande traitée au statut: {{status }}",
+      "trustedsourcing": "Certificat de provenance de l'or",
+      "goldprovenancestatement": "Voulez-vous avoir la provenance complète de l'or que vous achetez? Nous proposons un service pour suivre l'origine de l'or que vous achetez. Ce service est fourni par notre Bullion Integrity Ledger. Il vous coûte un supplément de 1%"
     }
   },
   es: {
@@ -246,7 +252,9 @@ const resources = {
       "processOrder": "Procesar pedido",
       "errorDeletingOrder": "Error al eliminar el pedido",
       "errorProcessingOrder": "Error al procesar el pedido",
-      "orderProcessed": "Pedido procesado al estado: {{status}}"
+      "orderProcessed": "Pedido procesado al estado: {{status}}",
+      "trustedsourcing": "Certificado de procedencia del oro",
+      "goldprovenancestatement": "¿Desea tener la procedencia completa del oro que compra? Ofrecemos un servicio para rastrear el origen del oro que compra. Este servicio es proporcionado por nuestro Bullion Integrity Ledger. Le cuesta un 1% adicional",
     }
   },
   it: {
@@ -307,7 +315,9 @@ const resources = {
       "processOrder": "Processare l'ordine",
       "errorDeletingOrder": "Errore durante l'eliminazione dell'ordine",
       "errorProcessingOrder": "Errore durante l'elaborazione dell'ordine",
-      "orderProcessed": "Ordine elaborato allo stato: {{status}}"
+      "orderProcessed": "Ordine elaborato allo stato: {{status}}",
+      "trustedsourcing": "Certificato di provenienza dell'oro",
+      "goldprovenancestatement": "Vuoi avere la provenienza completa dell'oro che acquisti? Offriamo un servizio per tracciare l'origine dell'oro che acquisti. Questo servizio è fornito dal nostro Bullion Integrity Ledger. Ti costa un supplemento del 1%"
     }
   },
 };
