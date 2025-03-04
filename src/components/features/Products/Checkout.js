@@ -25,6 +25,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const [error, setError] = useState(null);
   const [isProductTableOpen, setIsProductTableOpen] = useState(true);
   const [isCustodyServiceOpen, setIsCustodyServiceOpen] = useState(true);
+  const [isTrustedSourcingOpen, setIsTrustedSourcingOpen] = useState(true); // Add state for trusted sourcing section
 
   const countdown = useCountdown(10, () => loadNewPrices());
   const [custodians, setCustodians] = useCustodyServices(HOME_DELIVERY);
@@ -111,32 +112,32 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   return (
     <div className="checkout-overlay">
       <div className="checkout-container">
-          <h3>{t('checkout')}</h3>
-          <div className="checkout-countdown">
-            <p>{t('countdown')}: {countdown}</p>
-          </div>
-          {error && <div className="error-message">{error}</div>}
-          <div className="mb-3">
-            <Card>
-              <CardHeader 
-                onClick={() => setIsProductTableOpen(!isProductTableOpen)}
-                style={{ cursor: 'pointer', background: 'linear-gradient(to bottom, silver, black)', color: 'white' }}
-              >
+        <h3>{t('checkout')}</h3>
+        <div className="checkout-countdown">
+          <p>{t('countdown')}: {countdown}</p>
+        </div>
+        {error && <div className="error-message">{error}</div>}
+        <div className="mb-3">
+          <Card>
+            <CardHeader 
+              onClick={() => setIsProductTableOpen(!isProductTableOpen)}
+              style={{ cursor: 'pointer', background: 'linear-gradient(to bottom, silver, black)', color: 'white' }}
+            >
               {t('products')}
-              </CardHeader>
-              <Collapse isOpen={isProductTableOpen}>
-                  <CardBody>
-                    <ProductTable
-                      products={products}
-                      quantities={quantities}
-                      handleQuantityChange={handleQuantityChange}
-                      totalSum={totalSum}
-                      t={t}
-                    />
-                  </CardBody>
-              </Collapse>
-            </Card>
-          </div>
+            </CardHeader>
+            <Collapse isOpen={isProductTableOpen}>
+              <CardBody>
+                <ProductTable
+                  products={products}
+                  quantities={quantities}
+                  handleQuantityChange={handleQuantityChange}
+                  totalSum={totalSum}
+                  t={t}
+                />
+              </CardBody>
+            </Collapse>
+          </Card>
+        </div>
         <Card className="mb-3 py-2">
           <CardHeader
             onClick={() => setIsCustodyServiceOpen(!isCustodyServiceOpen)}
@@ -157,32 +158,37 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
           </Collapse>
         </Card>
         <Card className="mb-3 py-2">
-          <CardHeader style={{ background: 'linear-gradient(to bottom, silver, black)', color: 'white' }}>
+          <CardHeader 
+            onClick={() => setIsTrustedSourcingOpen(!isTrustedSourcingOpen)} // Add onClick handler
+            style={{ cursor: 'pointer', background: 'linear-gradient(to bottom, silver, black)', color: 'white' }}
+          >
             {t('trustedsourcing')}
           </CardHeader>
-          <CardBody>
-            <table className="trusted-sourcing-table">
-              <tbody>
-                <tr>
-                  <td>
-                    <FormGroup check>
-                      <Label check>
-                        <Input type="checkbox" />{' '}
-                        {t('goldprovenancestatement')}
-                      </Label>
-                    </FormGroup>
-                  </td>
-                  <td>{provenanceFee} CHF</td>
-                </tr>
-              </tbody>
-            </table>
-          </CardBody>
+          <Collapse isOpen={isTrustedSourcingOpen}> {/* Use state variable */}
+            <CardBody>
+              <table className="trusted-sourcing-table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <FormGroup check>
+                        <Label check>
+                          <Input type="checkbox" />{' '}
+                          {t('goldprovenancestatement')}
+                        </Label>
+                      </FormGroup>
+                    </td>
+                    <td>{provenanceFee} CHF</td>
+                  </tr>
+                </tbody>
+              </table>
+            </CardBody>
+          </Collapse>
         </Card>
         <div className="checkout-buttons">
-          <Button class="action-button" onClick={onClose}>
+          <Button className="action-button" onClick={onClose}>
             {t('cancel')}
           </Button>
-          <Button class="action-button" onClick={handleConfirm}>
+          <Button className="action-button" onClick={handleConfirm}>
             {t('confirm')}
           </Button>
         </div>
