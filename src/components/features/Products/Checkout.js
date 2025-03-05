@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from "prop-types";
+import { useNavigate } from 'react-router-dom';
 import ProductTable from './ProductTable';
 import CustodyServiceTable from './CustodyServiceTable';
 import { fetchProductPrices, createOrders } from '../../api/api';
@@ -19,6 +20,7 @@ const HOME_DELIVERY = {
 
 const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [selectedCustodian, setSelectedCustodian] = useState(HOME_DELIVERY.id);
   const [quantities, setQuantities] = useState({});
   const [products, setProducts] = useState(selectedProducts);
@@ -88,7 +90,7 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
   }, [selectedProducts, updateProducts, t]);
 
   const handleConfirm = useCallback(async () => {
-    const userId = '500472ff-24f0-4141-a756-f456cd3213d2'; // Hardcoded user ID
+    const userId = 'abe7ec12-2d1c-4e57-8f29-0fb1a1f39f14'; // FIXME Hardcoded user ID
     const orders = products.map(product => ({
       userId,
       productId: product.id,
@@ -100,11 +102,12 @@ const Checkout = ({ selectedProducts, onClose, onConfirm }) => {
     try {
       await createOrders(orders);
       onConfirm(selectedCustodian);
+      navigate('/product-request'); 
     } catch (error) {
       console.error('Error creating orders:', error);
       setError(t('errorCreatingOrders'));
     }
-  }, [products, quantities, selectedCustodian, onConfirm, t]);
+  }, [products, quantities, selectedCustodian, onConfirm, t, navigate]);
 
   // provanance fee is 1% of the total sum
   const provenanceFee = (totalSum * 0.01).toFixed(2);

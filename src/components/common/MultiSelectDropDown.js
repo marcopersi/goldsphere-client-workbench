@@ -45,7 +45,6 @@ const MultiSelectDropdown = ({ label, options, selected, onChange }) => {
         }}
       >
         {label} {selected.length > 0 ? `(${selected.length})` : ""}
-        <span className="icon">▼</span>
       </button>
       {isOpen && (
         <div
