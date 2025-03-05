@@ -46,7 +46,7 @@ const Portfolio = () => {
       {error ? (
         <div style={{ color: 'red' }}>{error}</div>
       ) : (
-        <EnhancedTable data={portfolio} columns={portfolioColumns} onSelectionChange={handleSelectionChange} />
+        <EnhancedTable data={portfolio} columns={portfolioColumns} onSelectionChange={handleSelectionChange} dateFormat={'dd.MM.yyyy'} />
       )}
     </div>
   );

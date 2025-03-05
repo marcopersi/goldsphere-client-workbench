@@ -47,7 +47,7 @@ const resources = {
       "quantity": "Quantity",
       "metal": "Metal",
       "purchasepriceperunit": "Paid price per unit",
-      "purchasedate": "Buying date",
+      "purchasedate": "Buying Date",
       "checkout": "Checkout",
       "total": "Total Purchase",
       "delete": "Delete",

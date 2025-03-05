@@ -5,14 +5,15 @@ import Flag from 'react-world-flags';
 import PropTypes from "prop-types";
 import './EnhancedTable.css'; // Neue CSS-Datei für Stile
 
-const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false }) => {
+const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false, dateFormat }) => {
   const { t } = useTranslation();
   const [selectedRows, setSelectedRows] = useState([]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     if (isValid(date)) {
-      return format(date, 'dd.MM.yyyy HH:mm:ss');
+      return format(date, dateFormat ? dateFormat : 'dd.MM.yyyy HH:mm:ss');
+      // return format(date, 'dd.MM.yyyy HH:mm:ss');
     } else {
       return 'Invalid Date';
     }
