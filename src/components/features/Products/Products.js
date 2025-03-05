@@ -4,7 +4,7 @@ import MultiSelectDropDown from "../../common/MultiSelectDropDown";
 import Checkout from "./Checkout";
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import './Products.css'; // Neue CSS-Datei für Stile
+import './Products.css'; 
 
 const Products = () => {
   const { t } = useTranslation();

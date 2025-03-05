@@ -105,6 +105,7 @@ EnhancedTable.propTypes = {
     })
   ).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired, 
+  dateFormat: PropTypes.string
 };
 
 export default EnhancedTable;
