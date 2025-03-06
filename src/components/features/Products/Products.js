@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import EnhancedTable from "../../common/EnhancedTable";
-import MultiSelectDropDown from "../../common/MultiSelectDropDown";
 import Checkout from "./Checkout";
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText } from '@mui/material';
+import Flag from 'react-world-flags';
 import './Products.css'; 
 
 const Products = () => {
@@ -53,7 +54,7 @@ const Products = () => {
 
   useEffect(() => {
     const producers = [...new Set(products.map(product => product.producer))].sort();
-    const issuingcountries = [...new Set(products.map(product => product.issuingcountry))].sort();
+    const issuingcountries = [...new Map(products.map(product => [product.isocode2, { isocode2: product.isocode2, name: product.issuingcountry }])).values()].sort((a, b) => a.name.localeCompare(b.name));
     const producttypes = [...new Set(products.map(product => product.producttype))].sort();
     const metals = [...new Set(products.map(product => product.metal))].sort();
     setSortedProducers(producers);
@@ -67,23 +68,27 @@ const Products = () => {
       ...prevFilters,
       [filterName]: selectedOptions
     }));
+    console.log(`Filter changed: ${filterName}`, selectedOptions);
   };
 
   const handleSelectionChange = (selectedRows) => {
     setSelectedProducts(selectedRows);
+    console.log("Selected products:", selectedRows);
   };
 
   const handleBuyClick = () => {
     setShowPopup(true);
+    console.log("Buy button clicked");
   };
 
   const handlePopupClose = () => {
     setShowPopup(false);
+    console.log("Popup closed");
   };
 
   const filteredProducts = products.filter(product => {
     const producerMatch = filters.producers.length === 0 || filters.producers.includes(product.producer);
-    const issuingCountryMatch = filters.issuingcountries.length === 0 || filters.issuingcountries.includes(product.issuingcountry);
+    const issuingCountryMatch = filters.issuingcountries.length === 0 || filters.issuingcountries.includes(product.isocode2);
     const productTypeMatch = filters.producttypes.length === 0 || filters.producttypes.includes(product.producttype);
     const metalMatch = filters.metals.length === 0 || filters.metals.includes(product.metal);
     return producerMatch && issuingCountryMatch && productTypeMatch && metalMatch;
@@ -100,6 +105,40 @@ const Products = () => {
     { header: t("price"), accessor: "price" }
   ];
 
+  const MultiSelectDropDown = ({ label, options, selected, onChange }) => {
+    const handleSelectChange = (event) => {
+      const value = event.target.value;
+      onChange(value);
+    };
+
+    return (
+      <FormControl variant="outlined" fullWidth style={{ width: '150px', marginBottom: '20px' }}>
+        <Select
+          multiple
+          value={selected}
+          onChange={handleSelectChange}
+          renderValue={(selected) => selected.join(', ')}
+          style={{ background: 'linear-gradient(to bottom, silver, black)', color: 'white', border: '1px solid silver' }}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                backgroundColor: 'silver',
+              },
+            },
+          }}
+        >
+          {options.map((option) => (
+            <MenuItem key={option.isocode2 || option.name} value={option.isocode2 || option.name}>
+              <Checkbox checked={selected.indexOf(option.isocode2 || option.name) > -1} style={{ color: 'white' }} />
+              {option.isocode2 && <Flag code={option.isocode2} style={{ width: '20px', marginRight: '10px' }} />}
+              <ListItemText primary={option.name} style={{ color: 'white' }} />
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    );
+  };
+
   return (
     <div className="products-container">
       <h2>{t('products')}</h2>
@@ -113,7 +152,7 @@ const Products = () => {
 
         <MultiSelectDropDown
           label={t("issuingcountry")}
-          options={sortedIssuingCountries.map((country) => ({ name: country }))}
+          options={sortedIssuingCountries}
           selected={filters.issuingcountries}
           onChange={(value) => handleFilterChange("issuingcountries", value)}
         />

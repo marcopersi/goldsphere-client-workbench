@@ -4,6 +4,7 @@
   align-items: center;
   gap: 20px;
   width: 100%; 
+  padding: 20px;
 }
 
 .filters {
@@ -18,6 +19,7 @@
   width: 90%;
   flex-direction: column; 
   margin: 0 auto;
+  margin-top: 20px;
 }
 
 .enhanced-table {
@@ -49,6 +51,8 @@
   justify-content: flex-end;
   width: 80%; 
   gap: 0px;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .action-button {
@@ -67,5 +71,5 @@
 }
 
 .action-button:hover {
-  background: linear-gradient(to bottom, gold, black);
+  background: linear-gradient(to bottom, gold, hsl(0, 0%, 0%));
 }

@@ -7,7 +7,7 @@ import Alert from '@mui/material/Alert';
 import Flag from 'react-world-flags';
 import { format, isValid } from 'date-fns';
 import './ProductOrder.css';
-import '../../common/MultiSelectDropDown';
+import MultiSelectDropDown from "../../common/MultiSelectDropDown";
 
 const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false }) => {
   const { t } = useTranslation();
@@ -123,6 +123,7 @@ const ProductOrder = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [snackbarQueue, setSnackbarQueue] = useState([]);
+  const [orderStatusFilter, setOrderStatusFilter] = useState([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -207,10 +208,20 @@ const ProductOrder = () => {
     { header: t("updatedat"), accessor: "updatedat" }
   ], [t]);
 
+  const filteredOrders = useMemo(() => orders.filter(order => 
+    orderStatusFilter.length === 0 || orderStatusFilter.includes(order.orderstatus)
+  ), [orders, orderStatusFilter]);
+
   return (
     <div className="product-order-container">
       <h2>{t('productRequest')}</h2>
-      <EnhancedTable data={orders} columns={orderColumns} onSelectionChange={handleSelectionChange} selectable={true} />
+      <MultiSelectDropDown
+        label={t("orderstatus")}
+        options={[...new Set(orders.map(order => order.orderstatus))].map(status => ({ name: status }))}
+        selected={orderStatusFilter}
+        onChange={(value) => setOrderStatusFilter(value)}
+      />
+      <EnhancedTable data={filteredOrders} columns={orderColumns} onSelectionChange={handleSelectionChange} selectable={true} />
       <div className="button-container">
         <button 
           className="action-button process-order-button"  

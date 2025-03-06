@@ -57,3 +57,43 @@
 .action-button:hover {
   background: linear-gradient(to bottom, gold, black);
 }
+
+.multi-select-dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  padding: 10px 20px;
+  border: 1px solid silver;
+  border-radius: 5px;
+  background: linear-gradient(to bottom, silver, black);
+  color: white;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 300px;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid silver;
+  background-color: white;
+  z-index: 1000;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.custom-control.custom-checkbox {
+  margin-bottom: 10px;
+}
+
+.custom-control-input {
+  margin-right: 5px;
+}
+
+.custom-control-label {
+  margin-left: 5px;
+  color: black;
+}
