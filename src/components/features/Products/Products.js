@@ -3,9 +3,10 @@ import EnhancedTable from "../../common/EnhancedTable";
 import Checkout from "./Checkout";
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText } from '@mui/material';
+import { FormControl, Select, MenuItem, Checkbox, ListItemText } from '@mui/material';
 import Flag from 'react-world-flags';
 import './Products.css'; 
+import PropTypes from "prop-types";
 
 const Products = () => {
   const { t } = useTranslation();
@@ -105,7 +106,7 @@ const Products = () => {
     { header: t("price"), accessor: "price" }
   ];
 
-  const MultiSelectDropDown = ({ label, options, selected, onChange }) => {
+  const MultiSelectDropDown = ({ options, selected, onChange }) => {
     const handleSelectChange = (event) => {
       const value = event.target.value;
       onChange(value);
@@ -137,6 +138,17 @@ const Products = () => {
         </Select>
       </FormControl>
     );
+  };
+
+  MultiSelectDropDown.propTypes = {
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        isocode2: PropTypes.string,
+        name: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+    selected: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onChange: PropTypes.func.isRequired,
   };
 
   return (

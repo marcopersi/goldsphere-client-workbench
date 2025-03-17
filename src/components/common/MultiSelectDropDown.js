@@ -1,7 +1,8 @@
 import React from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText } from '@mui/material';
+import { FormControl, Select, MenuItem, Checkbox, ListItemText } from '@mui/material';
+import PropTypes from "prop-types";
 
-const MultiSelectDropDown = ({ label, options, selected, onChange }) => {
+const MultiSelectDropDown = ({ options, selected, onChange }) => {
   const handleSelectChange = (event) => {
     const value = event.target.value;
     onChange(value);
@@ -33,5 +34,12 @@ const MultiSelectDropDown = ({ label, options, selected, onChange }) => {
     </FormControl>
   );
 };
+
+MultiSelectDropDown.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onChange: PropTypes.func.isRequired,
+  selected: PropTypes.func.isRequired,
+};
+
 
 export default MultiSelectDropDown;
