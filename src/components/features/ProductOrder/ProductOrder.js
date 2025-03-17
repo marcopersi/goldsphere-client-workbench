@@ -8,6 +8,7 @@ import Flag from 'react-world-flags';
 import { format, isValid } from 'date-fns';
 import './ProductOrder.css';
 import MultiSelectDropDown from "../../common/MultiSelectDropDown";
+import { formatNumber } from "../../../utils/formatNumber";
 
 const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false }) => {
   const { t } = useTranslation();
@@ -55,6 +56,8 @@ const EnhancedTable = ({ data, columns, onSelectionChange, selectable = false })
           {item[column.accessor]}
         </>
       );
+    } else if (column.accessor === 'totalprice') {
+      return formatNumber(item[column.accessor]);
     } else {
       return item[column.accessor];
     }
